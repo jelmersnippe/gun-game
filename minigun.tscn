@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bewtvgo8017yj"]
+
+[ext_resource type="Script" path="res://Weapon.cs" id="1_e0dpy"]
+[ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://bullet.tscn" id="2_m7fya"]
+[ext_resource type="Texture2D" uid="uid://drtqx5xq50aq3" path="res://minigun.png" id="3_wj18w"]
+
+[node name="Minigun" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint")]
+script = ExtResource("1_e0dpy")
+Sprite = NodePath("Sprite2D")
+ProjectileScene = ExtResource("2_m7fya")
+FirePoint = NodePath("FirePoint")
+AttacksPerSecond = 16.0
+IsAutomatic = true
+Kickback = 3.0
+ProjectilesPerShot = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(24, -2)
+scale = Vector2(2, 2)
+texture = ExtResource("3_wj18w")
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(43, -1)

@@ -1,0 +1,131 @@
+[gd_scene load_steps=20 format=3 uid="uid://by2ms8wxqqshl"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_becff"]
+[ext_resource type="Script" path="res://VelocityComponent.cs" id="2_02un2"]
+[ext_resource type="Script" path="res://MovementComponent.cs" id="3_pqu6q"]
+[ext_resource type="Script" path="res://InputComponent.cs" id="4_1fvdj"]
+[ext_resource type="Texture2D" uid="uid://c6n8o825kl6rk" path="res://character.png" id="5_hf84n"]
+[ext_resource type="Script" path="res://Inventory.cs" id="7_dg0ip"]
+[ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://assault_rifle.tscn" id="7_x3mgr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pj8us"]
+size = Vector2(40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ik1j0"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(0, 2, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esttx"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(128, 2, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er4ph"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(256, 2, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ting0"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(384, 2, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pllcp"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(0, 130, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwwoj"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(128, 130, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhgqy"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(256, 130, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhjiy"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(384, 130, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hoyg4"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(512, 130, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwjfl"]
+atlas = ExtResource("5_hf84n")
+region = Rect2(640, 130, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gyv7b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik1j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esttx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er4ph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ting0")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pllcp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwwoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhgqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhjiy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hoyg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwjfl")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("VelocityComponent", "InputComponent", "Sprite", "Inventory", "Hand")]
+motion_mode = 1
+script = ExtResource("1_becff")
+VelocityComponent = NodePath("VelocityComponent")
+InputComponent = NodePath("InputComponent")
+Sprite = NodePath("AnimatedSprite2D")
+Inventory = NodePath("Inventory")
+Hand = NodePath("Hand")
+
+[node name="VelocityComponent" type="Node" parent="."]
+script = ExtResource("2_02un2")
+
+[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("Body", "VelocityComponent")]
+script = ExtResource("3_pqu6q")
+Body = NodePath("..")
+VelocityComponent = NodePath("../VelocityComponent")
+
+[node name="InputComponent" type="Node" parent="."]
+script = ExtResource("4_1fvdj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pj8us")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_gyv7b")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Hand" type="Node2D" parent="."]
+position = Vector2(0, 8)
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("7_dg0ip")
+DefaultWeapon = ExtResource("7_x3mgr")
