@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwmt64tim8f5u"
-path="res://.godot/imported/bullet.png-ff1424653e10246c11e3724e402c519e.ctex"
+uid="uid://cxp0qfatr0qyg"
+path="res://.godot/imported/pistol.png-9f2fdfdf8945afaaf7cfa362ec02b992.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bullet.png"
-dest_files=["res://.godot/imported/bullet.png-ff1424653e10246c11e3724e402c519e.ctex"]
+source_file="res://sprites/pistol.png"
+dest_files=["res://.godot/imported/pistol.png-9f2fdfdf8945afaaf7cfa362ec02b992.ctex"]
 
 [params]
 

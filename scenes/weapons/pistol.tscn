@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckfxfkyvjyedj"]
+
+[ext_resource type="Script" path="res://Weapon.cs" id="1_6batt"]
+[ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_tkd8x"]
+[ext_resource type="AudioStream" uid="uid://c5y1ucsxl5o2n" path="res://sounds/9mm_gunshot-104571.mp3" id="3_eygii"]
+[ext_resource type="Texture2D" uid="uid://cxp0qfatr0qyg" path="res://sprites/pistol.png" id="4_3kxqw"]
+
+[node name="Pistol" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint")]
+script = ExtResource("1_6batt")
+Sprite = NodePath("Sprite2D")
+ProjectileScene = ExtResource("2_tkd8x")
+FirePoint = NodePath("FirePoint")
+Kickback = 6.0
+Spread = 2.0
+DistanceBetweenProjectiles = 0.0
+Sound = ExtResource("3_eygii")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(24, -2)
+scale = Vector2(2, 2)
+texture = ExtResource("4_3kxqw")
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(31, -6)

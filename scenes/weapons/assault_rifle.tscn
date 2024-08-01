@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3gorf64u6dbd"]
+
+[ext_resource type="Script" path="res://Weapon.cs" id="1_qrmmy"]
+[ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_ov7c4"]
+[ext_resource type="AudioStream" uid="uid://i72n362dar2y" path="res://sounds/076415_light-machine-gun-m249-39827.mp3" id="3_ydsds"]
+[ext_resource type="Texture2D" uid="uid://4qmq2ku65ono" path="res://sprites/assault-rifle.png" id="4_xharv"]
+
+[node name="AssaultRifle" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint")]
+script = ExtResource("1_qrmmy")
+Sprite = NodePath("Sprite2D")
+ProjectileScene = ExtResource("2_ov7c4")
+FirePoint = NodePath("FirePoint")
+AttacksPerSecond = 8.0
+IsAutomatic = true
+Kickback = 3.0
+Spread = 4.0
+DistanceBetweenProjectiles = 0.0
+Sound = ExtResource("3_ydsds")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(24, -2)
+scale = Vector2(2, 2)
+texture = ExtResource("4_xharv")
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(51, -4)
