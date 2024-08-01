@@ -3,7 +3,22 @@ using System;
 
 public partial class Projectile : Area2D {
 	[Export] public PackedScene Shell;
+	[Export] public PackedScene ImpactEffect;
 	[Export] public float Speed = 200f;
+
+	public override void _Ready()
+	{
+		AreaEntered += OnAreaEntered;
+	}
+
+	private void OnAreaEntered(Area2D area)
+	{
+		var impactEffect = ImpactEffect.Instantiate<ImpactEffect>();
+		impactEffect.Rotation = GlobalPosition.DirectionTo(area.GlobalPosition).Angle();
+		impactEffect.GlobalPosition = GlobalPosition;
+		
+		GetTree().Root.CallDeferred("add_child", impactEffect);
+	}
 
 	public override void _Process(double delta)
 	{

@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://lpt5yixny2al"]
+
+[ext_resource type="Texture2D" uid="uid://qhprevvumwgr" path="res://sprites/BpuQGp.png" id="1_dk4kj"]
+[ext_resource type="Script" path="res://ImpactEffect.cs" id="2_wim5o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ld4l5"]
+atlas = ExtResource("1_dk4kj")
+region = Rect2(160, 160, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gikac"]
+atlas = ExtResource("1_dk4kj")
+region = Rect2(240, 160, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyouq"]
+atlas = ExtResource("1_dk4kj")
+region = Rect2(320, 160, 80, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_367b0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ld4l5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gikac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qyouq")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="BulletImpact" type="AnimatedSprite2D"]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_367b0")
+autoplay = "default"
+offset = Vector2(-40, -3)
+flip_h = true
+script = ExtResource("2_wim5o")
