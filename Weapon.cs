@@ -6,6 +6,8 @@ public partial class Weapon : Node2D
 	[Export] public Sprite2D Sprite;
 	[Export] public PackedScene ProjectileScene;
 	[Export] public Node2D FirePoint;
+	[Export] public Node2D ShellEjectionPoint;
+	
 	[Export] public float AttacksPerSecond = 6;
 	[Export] public bool IsAutomatic = false;
 
@@ -51,6 +53,13 @@ public partial class Weapon : Node2D
 			projectile.RotationDegrees += rng.RandfRange(-Spread, Spread);
 			
 			GetTree().Root.CallDeferred("add_child", projectile);
+
+			var shell = projectile.Shell.Instantiate<Shell>();
+			shell.GlobalPosition = ShellEjectionPoint.GlobalPosition;
+			shell.Rotation = direction.Angle();
+			shell.Velocity = new Vector2(-direction.Normalized().X * 50, -1 * 200);
+		
+			GetTree().Root.CallDeferred("add_child", shell);
 		}
 		
 		// Apply kickback

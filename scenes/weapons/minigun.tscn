@@ -5,11 +5,12 @@
 [ext_resource type="AudioStream" uid="uid://cau2vydmx1n3b" path="res://sounds/meaty-gunshot-101257.mp3" id="3_dg864"]
 [ext_resource type="Texture2D" uid="uid://drtqx5xq50aq3" path="res://sprites/minigun.png" id="3_wj18w"]
 
-[node name="Minigun" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint")]
+[node name="Minigun" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint", "ShellEjectionPoint")]
 script = ExtResource("1_e0dpy")
 Sprite = NodePath("Sprite2D")
 ProjectileScene = ExtResource("2_rckf3")
 FirePoint = NodePath("FirePoint")
+ShellEjectionPoint = NodePath("ShellEjectionPoint")
 AttacksPerSecond = 16.0
 IsAutomatic = true
 Kickback = 3.0
@@ -23,3 +24,6 @@ texture = ExtResource("3_wj18w")
 
 [node name="FirePoint" type="Node2D" parent="."]
 position = Vector2(43, -1)
+
+[node name="ShellEjectionPoint" type="Node2D" parent="."]
+position = Vector2(14, -7)
