@@ -18,6 +18,11 @@ public partial class Projectile : Area2D {
 		impactEffect.GlobalPosition = GlobalPosition;
 		
 		GetTree().Root.CallDeferred("add_child", impactEffect);
+
+		Engine.TimeScale = 0;
+
+		var hitStopTimer = GetTree().CreateTimer(0.05f, ignoreTimeScale: true);
+		hitStopTimer.Timeout += () => Engine.TimeScale = 1f;
 	}
 
 	public override void _Process(double delta)

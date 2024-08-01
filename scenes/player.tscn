@@ -5,8 +5,8 @@
 [ext_resource type="Script" path="res://components/MovementComponent.cs" id="3_pqu6q"]
 [ext_resource type="Script" path="res://components/InputComponent.cs" id="4_1fvdj"]
 [ext_resource type="Texture2D" uid="uid://c6n8o825kl6rk" path="res://sprites/character.png" id="5_hf84n"]
+[ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="7_ccyhf"]
 [ext_resource type="Script" path="res://Inventory.cs" id="7_dg0ip"]
-[ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="7_oc6b5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pj8us"]
 size = Vector2(40, 40)
@@ -129,4 +129,4 @@ position = Vector2(0, 8)
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("7_dg0ip")
-DefaultWeapon = ExtResource("7_oc6b5")
+DefaultWeapon = ExtResource("7_ccyhf")
