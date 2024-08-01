@@ -13,7 +13,7 @@ FirePoint = NodePath("FirePoint")
 ShellEjectionPoint = NodePath("ShellEjectionPoint")
 AttacksPerSecond = 16.0
 IsAutomatic = true
-Kickback = 3.0
+UserKickback = 100.0
 ProjectilesPerShot = 3
 Sound = ExtResource("3_dg864")
 

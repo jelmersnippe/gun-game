@@ -95,6 +95,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("VelocityComponent", "InputComponent", "Sprite", "Inventory", "Hand")]
+position = Vector2(0, -1)
 motion_mode = 1
 script = ExtResource("1_becff")
 VelocityComponent = NodePath("VelocityComponent")

@@ -8,7 +8,6 @@ public partial class MovementComponent : Node
 	
 	[Export] public CharacterBody2D Body;
 	[Export] public VelocityComponent VelocityComponent;
-	[Export] public float Speed = 300.0f;
 
 	public override void _Process(double delta)
 	{
@@ -17,7 +16,7 @@ public partial class MovementComponent : Node
 
 	private void Move(float delta)
 	{
-		Body.Velocity = VelocityComponent.Velocity.Normalized() * Speed;
+		Body.Velocity = VelocityComponent.Velocity;
 		var collision = Body.MoveAndCollide(Body.Velocity * delta, true);
 		
 		Body.MoveAndSlide();

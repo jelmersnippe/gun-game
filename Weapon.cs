@@ -11,7 +11,8 @@ public partial class Weapon : Node2D
 	[Export] public float AttacksPerSecond = 6;
 	[Export] public bool IsAutomatic = false;
 
-	[Export] public float Kickback = 5f;
+	[Export] public float UserKickback = 5f;
+	[Export] public float WeaponKickback = 5f;
 	[Export] public float Spread = 5f;
 	
 	[Export] public int ProjectilesPerShot = 1;
@@ -24,11 +25,11 @@ public partial class Weapon : Node2D
 
 	private float ReloadTime => 1f / AttacksPerSecond;
 
-	public void Fire(Vector2 direction)
+	public Vector2 Fire(Vector2 direction)
 	{
 		if (_isReloading || _waitingForTriggerRelease)
 		{
-			return;
+			return Vector2.Zero;
 		}
 
 		_isReloading = true;
@@ -63,7 +64,7 @@ public partial class Weapon : Node2D
 		}
 		
 		// Apply kickback
-		Position = Vector2.Zero - direction * Kickback;
+		Position = Vector2.Zero - direction * WeaponKickback;
 
 		var reloadTimer = GetTree().CreateTimer(ReloadTime);
 		reloadTimer.Timeout += () => _isReloading = false;
@@ -73,6 +74,8 @@ public partial class Weapon : Node2D
 		soundPlayer.Stream = Sound;
 		soundPlayer.Play();
 		soundPlayer.Finished += () => soundPlayer.QueueFree();
+
+		return -direction.Normalized() * UserKickback;
 	}
 
 	public override void _Process(double delta)
