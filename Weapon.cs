@@ -15,6 +15,8 @@ public partial class Weapon : Node2D
 	[Export] public int ProjectilesPerShot = 1;
 	[Export] public float DistanceBetweenProjectiles = 10f;
 
+	[Export] public AudioStream Sound;
+
 	private bool _isReloading = false;
 	private bool _waitingForTriggerRelease = false;
 
@@ -34,18 +36,15 @@ public partial class Weapon : Node2D
 		}
 
 		var middleProjectileIndex = (ProjectilesPerShot - 1) / 2f;
-		GD.Print("Middle projectile: " + middleProjectileIndex);
 		for (var i = 0; i < ProjectilesPerShot; i++)
 		{
 			var offset = i - middleProjectileIndex;
-			GD.Print("Offset: " + offset);
 			
 			var projectile = ProjectileScene.Instantiate<Projectile>();
 			projectile.GlobalPosition = FirePoint.GlobalPosition;
 			projectile.Rotation = direction.Angle();
 			
 			projectile.RotationDegrees += offset * DistanceBetweenProjectiles;
-			GD.Print("Rotation Adjustment: " + offset * DistanceBetweenProjectiles);
 			
 			// Apply spread
 			var rng = new RandomNumberGenerator();
@@ -59,6 +58,12 @@ public partial class Weapon : Node2D
 
 		var reloadTimer = GetTree().CreateTimer(ReloadTime);
 		reloadTimer.Timeout += () => _isReloading = false;
+
+		var soundPlayer = new AudioStreamPlayer2D();
+		GetParent().AddChild(soundPlayer);
+		soundPlayer.Stream = Sound;
+		soundPlayer.Play();
+		soundPlayer.Finished += () => soundPlayer.QueueFree();
 	}
 
 	public override void _Process(double delta)

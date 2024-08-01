@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bewtvgo8017yj"]
+[gd_scene load_steps=5 format=3 uid="uid://bewtvgo8017yj"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_e0dpy"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://bullet.tscn" id="2_m7fya"]
+[ext_resource type="AudioStream" uid="uid://cau2vydmx1n3b" path="res://meaty-gunshot-101257.mp3" id="3_sq3yr"]
 [ext_resource type="Texture2D" uid="uid://drtqx5xq50aq3" path="res://minigun.png" id="3_wj18w"]
 
 [node name="Minigun" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint")]
@@ -13,6 +14,7 @@ AttacksPerSecond = 16.0
 IsAutomatic = true
 Kickback = 3.0
 ProjectilesPerShot = 3
+Sound = ExtResource("3_sq3yr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(24, -2)
