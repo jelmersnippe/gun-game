@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://byuck8vo52qri"]
+[gd_scene load_steps=8 format=3 uid="uid://byuck8vo52qri"]
 
 [ext_resource type="Script" path="res://Projectile.cs" id="1_xhkia"]
 [ext_resource type="PackedScene" uid="uid://cbd8kc4uoq1ya" path="res://scenes/projectiles/shell.tscn" id="2_2pxgu"]
@@ -26,7 +26,10 @@ animations = [{
 "speed": 60.0
 }]
 
-[node name="Bullet" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_41233"]
+size = Vector2(18, 8)
+
+[node name="Bullet" type="Area2D"]
 script = ExtResource("1_xhkia")
 Shell = ExtResource("2_2pxgu")
 Speed = 900.0
@@ -34,3 +37,6 @@ Speed = 900.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c58eq")
 autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_41233")

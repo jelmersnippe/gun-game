@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://bd5wqt2ikwe04"]
+
+[ext_resource type="Shader" path="res://hit_flash.gdshader" id="1_0vkfi"]
+[ext_resource type="Script" path="res://Dummy.cs" id="1_xgfw4"]
+[ext_resource type="Texture2D" uid="uid://jsje281tyx28" path="res://sprites/Training Dummy Sprite Sheet.png" id="2_vrbwc"]
+[ext_resource type="PackedScene" uid="uid://bivy37bqys46e" path="res://scenes/hitflash_component.tscn" id="4_1b17w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phf5k"]
+size = Vector2(16.5, 23.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ipt8"]
+shader = ExtResource("1_0vkfi")
+shader_parameter/active = false
+shader_parameter/r = 1.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5q6m"]
+atlas = ExtResource("2_vrbwc")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jo00l"]
+atlas = ExtResource("2_vrbwc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sb806"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5q6m")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jo00l")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="Dummy" type="Node2D" node_paths=PackedStringArray("Hitbox", "Sprite", "HitflashComponent")]
+scale = Vector2(2, 2)
+script = ExtResource("1_xgfw4")
+Hitbox = NodePath("Area2D")
+Sprite = NodePath("AnimatedSprite2D")
+HitflashComponent = NodePath("HitflashComponent")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.25, 0.25)
+shape = SubResource("RectangleShape2D_phf5k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_3ipt8")
+sprite_frames = SubResource("SpriteFrames_sb806")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="HitflashComponent" parent="." node_paths=PackedStringArray("Sprite") instance=ExtResource("4_1b17w")]
+Sprite = NodePath("../AnimatedSprite2D")
