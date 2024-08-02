@@ -32,7 +32,6 @@ public partial class Weapon : Node2D
 			return Vector2.Zero;
 		}
 
-		_isReloading = true;
 		if (!IsAutomatic)
 		{
 			_waitingForTriggerRelease = true;
@@ -54,7 +53,6 @@ public partial class Weapon : Node2D
 			projectile.RotationDegrees += rng.RandfRange(-Spread, Spread);
 			
 			GetTree().Root.CallDeferred("add_child", projectile);
-			CombatEventHandler.HandleEvent(CombatEvent.ProjectileFired);
 
 			var shell = projectile.Shell.Instantiate<Shell>();
 			shell.GlobalPosition = ShellEjectionPoint.GlobalPosition;
@@ -66,15 +64,20 @@ public partial class Weapon : Node2D
 		
 		// Apply kickback
 		Position = Vector2.Zero - direction * WeaponKickback;
-
-		var reloadTimer = GetTree().CreateTimer(ReloadTime);
-		reloadTimer.Timeout += () => _isReloading = false;
+		
+		Reload();
 
 		var soundPlayer = new AudioStreamPlayer2D();
 		GetParent().AddChild(soundPlayer);
 		soundPlayer.Stream = Sound;
 		soundPlayer.Play();
 		soundPlayer.Finished += () => soundPlayer.QueueFree();
+
+		// Perform at the end so all game tree related stuff like reloading can still happen
+		for (var i = 0; i < ProjectilesPerShot; i++)
+		{
+			CombatEventHandler.HandleEvent(CombatEvent.ProjectileFired);
+		}
 
 		return -direction.Normalized() * UserKickback;
 	}
@@ -93,6 +96,13 @@ public partial class Weapon : Node2D
 	{
 		var directionToMouse = GlobalPosition.DirectionTo(GetGlobalMousePosition());
 		Sprite.FlipV = directionToMouse.X < 0;
+	}
+
+	public void Reload()
+	{
+		_isReloading = true;
+		var reloadTimer = GetTree().CreateTimer(ReloadTime);
+		reloadTimer.Timeout += () => _isReloading = false;
 	}
 }
 

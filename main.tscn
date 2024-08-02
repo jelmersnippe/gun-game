@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://yw80x881be3q"]
+[gd_scene load_steps=10 format=3 uid="uid://yw80x881be3q"]
 
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="1_pw8o1"]
 [ext_resource type="PackedScene" uid="uid://bd5wqt2ikwe04" path="res://scenes/dummy.tscn" id="2_us86r"]
@@ -8,11 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="6_u5e4t"]
 [ext_resource type="Script" path="res://ObjectiveController.cs" id="7_2de5k"]
 [ext_resource type="Script" path="res://ObjectivesDisplay.cs" id="8_sq6lu"]
+[ext_resource type="Script" path="res://GunRegistry.cs" id="9_ja25m"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_pw8o1")]
+[node name="Player" parent="." node_paths=PackedStringArray("ObjectiveController", "GunRegistry") instance=ExtResource("1_pw8o1")]
 position = Vector2(294, 272)
+ObjectiveController = NodePath("../ObjectiveController")
+GunRegistry = NodePath("../GunRegistry")
 
 [node name="Dummy" parent="." instance=ExtResource("2_us86r")]
 position = Vector2(627, 360)
@@ -40,3 +43,7 @@ offset_bottom = 36.0
 text = "Objectives:"
 script = ExtResource("8_sq6lu")
 ObjectiveController = NodePath("../ObjectiveController")
+
+[node name="GunRegistry" type="Node" parent="."]
+script = ExtResource("9_ja25m")
+WeaponScenes = [ExtResource("5_ucsd8"), ExtResource("4_2k03y"), ExtResource("6_u5e4t")]

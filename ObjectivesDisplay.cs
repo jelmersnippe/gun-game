@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class ObjectivesDisplay : Label
 {
@@ -7,19 +9,18 @@ public partial class ObjectivesDisplay : Label
 	
 	public override void _Ready()
 	{
-		ObjectiveController.ObjectiveUpdated += ObjectiveControllerOnObjectiveUpdated;
+		ObjectiveController.ObjectivesUpdated += ObjectiveControllerOnObjectivesUpdated;
 		ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
 	}
 
 	private void ObjectiveControllerOnObjectiveCompleted(Objective objective)
 	{
-		GD.Print("Updating objective display toc omplete");
+		GD.Print("Objective completed");
 		Text = "Objectives:\n Completed!";
 	}
 
-	private void ObjectiveControllerOnObjectiveUpdated(Objective objective)
+	private void ObjectiveControllerOnObjectivesUpdated(IReadOnlyList<Objective> objectives)
 	{
-		GD.Print("Updating objective display");
-		Text = "Objectives:\n " + objective.DisplayText;
+		Text = "Objectives:\n" + string.Join("\n", objectives.Select(x => x.DisplayText));
 	}
 }

@@ -7,7 +7,8 @@ public partial class Inventory : Node
 	
 	[Signal]
 	public delegate void WeaponEquippedEventHandler(Weapon equippedWeapon);
-	
+
+	[Export] public bool CreatePickupForWeapons = false;
 	[Export] public PackedScene? DefaultWeapon;
 	public Weapon? ActiveWeapon { get; private set; }
 
@@ -22,24 +23,32 @@ public partial class Inventory : Node
 		Equip(weaponInstance);
 	}
 
-	public void Equip(Weapon weapon)
+	public void Equip(Weapon? weapon)
 	{
 		 if (ActiveWeapon != null)
 		 {
-			var activeWeaponParent = ActiveWeapon.GetParent();
-			activeWeaponParent?.RemoveChild(ActiveWeapon);
-		
-		 	var droppedWeaponPickup = _pickupScene.Instantiate<Pickup>();
-		 	droppedWeaponPickup.GlobalPosition = (GetParent() as Node2D)!.GlobalPosition;
-		 	droppedWeaponPickup.SetWeapon(ActiveWeapon);
+			if (CreatePickupForWeapons) {
+				var activeWeaponParent = ActiveWeapon.GetParent();
+				activeWeaponParent?.RemoveChild(ActiveWeapon);
 			
-		 	GetTree().Root.CallDeferred("add_child", droppedWeaponPickup);
+			 	var droppedWeaponPickup = _pickupScene.Instantiate<Pickup>();
+			 	droppedWeaponPickup.GlobalPosition = (GetParent() as Node2D)!.GlobalPosition;
+			 	droppedWeaponPickup.SetWeapon(ActiveWeapon);
+				ActiveWeapon.StopFiring();
+				
+			 	GetTree().Root.CallDeferred("add_child", droppedWeaponPickup);
+			} else {
+				ActiveWeapon.QueueFree();
+			}
 		 }
 
-		 var weaponParent = weapon.GetParent();
+		 var weaponParent = weapon?.GetParent();
 		 weaponParent?.RemoveChild(weapon);
 
 		 ActiveWeapon = weapon;
-		 EmitSignal(SignalName.WeaponEquipped, ActiveWeapon);
+		 if (ActiveWeapon != null)
+		 {
+			 EmitSignal(SignalName.WeaponEquipped, ActiveWeapon);
+		 }
 	}
 }

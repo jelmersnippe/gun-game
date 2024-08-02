@@ -3,6 +3,9 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
+	[Export] public ObjectiveController ObjectiveController;
+	[Export] public GunRegistry GunRegistry;
+	
 	[Export] public VelocityComponent VelocityComponent;
 	[Export] public InputComponent InputComponent;
 	[Export] public AnimatedSprite2D Sprite;
@@ -14,7 +17,7 @@ public partial class Player : CharacterBody2D
 	
 	[Export] public float Speed = 200f;
 
-	private Pickup? AvailablePickup;
+	private Pickup? _availablePickup;
 
 	public override void _Ready()
 	{
@@ -38,16 +41,27 @@ public partial class Player : CharacterBody2D
 
 		PickupRadius.AreaEntered += EnterPickupArea;
 		PickupRadius.AreaExited += ExitPickupArea;
+		
+		ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
+
+		var startingWeapon = GunRegistry.GetNext();
+		Inventory.Equip(startingWeapon);
+	}
+
+	private void ObjectiveControllerOnObjectiveCompleted(Objective obj)
+	{
+		Inventory.Equip(GunRegistry.GetNext());
 	}
 
 	private void EquipWeapon(Weapon weapon)
 	{
-		Hand.CallDeferred("add_child", weapon);
+		Hand.AddChild(weapon);
+		weapon.Reload();
 		weapon.Sprite.Position = CarryingOffset;
 	}
 
 	private void InputComponentOnAttackInput() {
-		Vector2? kickback = Inventory.ActiveWeapon?.Fire(Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition()));
+		var kickback = Inventory.ActiveWeapon?.Fire(Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition()));
 
 		if (kickback.HasValue) {
 			VelocityComponent.Velocity += kickback.Value;
@@ -70,10 +84,10 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 		
-		AvailablePickup?.OutlineShader?.SetShaderParameter("width", 0);
+		_availablePickup?.ShowInteractable(false);
 
-		AvailablePickup = pickup;
-		AvailablePickup.ShowInteractable(true);
+		_availablePickup = pickup;
+		_availablePickup.ShowInteractable(true);
 	}
 	
 	private void ExitPickupArea(Area2D area)
@@ -83,21 +97,21 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		if (pickup == AvailablePickup)
+		if (pickup == _availablePickup)
 		{
-			AvailablePickup.ShowInteractable(false);
-			AvailablePickup = null;
+			_availablePickup.ShowInteractable(false);
+			_availablePickup = null;
 		}
 	}
 
 	private void Interact()
 	{
-		if (AvailablePickup?.Weapon == null)
+		if (_availablePickup?.Weapon == null)
 		{
 			return;
 		}
 
-		Inventory.Equip(AvailablePickup.Weapon);
-		AvailablePickup.QueueFree();
+		Inventory.Equip(_availablePickup.Weapon);
+		_availablePickup.QueueFree();
 	}
 }

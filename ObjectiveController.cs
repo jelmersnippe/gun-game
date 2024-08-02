@@ -1,21 +1,21 @@
 using System;
 using Godot;
 using System.Collections.Generic;
+using Godot.Collections;
 
 public partial class ObjectiveController : Node
 {
-	[Signal]
-	public delegate void ObjectiveUpdatedEventHandler(Objective objective);
-	
-	[Signal]
-	public delegate void ObjectiveCompletedEventHandler(Objective objective);
+	public event Action<IReadOnlyList<Objective>>? ObjectivesUpdated;
+	public event Action<Objective>? ObjectiveCompleted;
 	
 	private readonly List<Objective> _activeObjectives = new();
 
 	public override void _Ready()
 	{
 		CombatEventHandler.CombatEventTriggered += CombatEventHandlerOnCombatEventTriggered;
-		AddObjective(new ProjectilesFiredObjective());
+
+		var initialObjectiveTimer = GetTree().CreateTimer(0.2f);
+		initialObjectiveTimer.Timeout += () => AddObjective(new ProjectilesFiredObjective(30));
 	}
 
 	private void CombatEventHandlerOnCombatEventTriggered(CombatEvent @event)
@@ -25,7 +25,7 @@ public partial class ObjectiveController : Node
 			var changed = objective.HandleEvent(@event);
 			if (changed)
 			{
-				EmitSignal(SignalName.ObjectiveUpdated, objective);
+				ObjectivesUpdated?.Invoke(_activeObjectives.AsReadOnly());
 			}
 		}
 	}
@@ -34,14 +34,25 @@ public partial class ObjectiveController : Node
 	{
 		_activeObjectives.Add(obj);
 		obj.Completed += ObjOnCompleted;
+		ObjectivesUpdated?.Invoke(_activeObjectives);
 	}
 
 	private void ObjOnCompleted(Objective obj)
 	{
-		GD.Print("ObjectiveController - completed");
-		EmitSignal(SignalName.ObjectiveCompleted, obj);
+		ObjectiveCompleted?.Invoke(obj);
 		obj.Completed -= ObjOnCompleted;
-		// _activeObjectives.Remove(obj);
+
+		var objectiveCompletedTimer = GetTree().CreateTimer(1.5f);
+		objectiveCompletedTimer.Timeout += () => RemoveObjective(obj);
+		
+		var newObjectiveTimer = GetTree().CreateTimer(2f);
+		newObjectiveTimer.Timeout += () => AddObjective(new ProjectilesFiredObjective(30));
+	}
+
+	private void RemoveObjective(Objective obj)
+	{
+		_activeObjectives.Remove(obj);
+		ObjectivesUpdated?.Invoke(_activeObjectives);
 	}
 }
 
@@ -51,12 +62,17 @@ public abstract partial class Objective : RefCounted
 	public delegate void CompletedEventHandler(Objective objective);
 	
 	private int _currentProgression = 0;
-	protected abstract int RequiredProgression { get; }
-	protected abstract string ObjectiveText { get; }
-	public string DisplayText => ObjectiveText + $" ({_currentProgression}/{RequiredProgression})";
-		
-	public abstract bool ValidateProgression(CombatEvent @event);
-	public abstract bool ValidateFailure(CombatEvent @event);
+	private int RequiredProgression { get; }
+	protected abstract string ObjectiveText(int requiredProgression);
+	public string DisplayText => ObjectiveText(RequiredProgression) + $" ({_currentProgression}/{RequiredProgression})";
+
+	protected abstract bool ValidateProgression(CombatEvent @event);
+	protected abstract bool ValidateFailure(CombatEvent @event);
+
+	protected Objective(int requiredProgression)
+	{
+		RequiredProgression = requiredProgression;
+	}
 
 	public bool HandleEvent(CombatEvent @event)
 	{
@@ -75,8 +91,6 @@ public abstract partial class Objective : RefCounted
 		if (_currentProgression >= RequiredProgression)
 		{
 			Complete();
-			// Return false so the complete event takes precedence
-			return false;
 		}
 
 		return true;
@@ -84,7 +98,6 @@ public abstract partial class Objective : RefCounted
 
 	private void Complete()
 	{
-		GD.Print("Objective completed");
 		EmitSignal(SignalName.Completed, this);
 	}
 
@@ -102,16 +115,22 @@ public abstract partial class Objective : RefCounted
 
 public partial class ProjectilesFiredObjective : Objective
 {
-	protected override int RequiredProgression => 30;
-	protected override string ObjectiveText => $"Fire {RequiredProgression} projectiles";
-	
-	public override bool ValidateProgression(CombatEvent @event)
+	protected override string ObjectiveText(int requiredProgression)
+	{
+		return $"Fire {requiredProgression} projectiles";
+	}
+
+	protected override bool ValidateProgression(CombatEvent @event)
 	{
 		return @event.Name == CombatEvent.ProjectileFired.Name;
 	}
 
-	public override bool ValidateFailure(CombatEvent @event)
+	protected override bool ValidateFailure(CombatEvent @event)
 	{
 		return false;
+	}
+
+	public ProjectilesFiredObjective(int requiredProgression) : base(requiredProgression)
+	{
 	}
 }

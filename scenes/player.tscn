@@ -136,6 +136,7 @@ position = Vector2(0, 8)
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("7_dg0ip")
+CreatePickupForWeapons = true
 DefaultWeapon = ExtResource("7_oc6b5")
 
 [node name="PickupRadius" type="Area2D" parent="."]
