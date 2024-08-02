@@ -54,6 +54,7 @@ public partial class Weapon : Node2D
 			projectile.RotationDegrees += rng.RandfRange(-Spread, Spread);
 			
 			GetTree().Root.CallDeferred("add_child", projectile);
+			CombatEventHandler.HandleEvent(CombatEvent.ProjectileFired);
 
 			var shell = projectile.Shell.Instantiate<Shell>();
 			shell.GlobalPosition = ShellEjectionPoint.GlobalPosition;
