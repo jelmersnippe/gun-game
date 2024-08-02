@@ -42,6 +42,7 @@ public partial class Pickup : Area2D
 		OutlineShader.SetShaderParameter("width", 0);
 
 		Weapon.Sprite.Position = Vector2.Zero;
+		Weapon.Sprite.FlipV = false;
 		Weapon.Sprite.Material = outlineMaterial;
 		ShowInteractable(false);
 		
