@@ -17,7 +17,7 @@ public partial class Projectile : Area2D {
 		impactEffect.RotationDegrees = RotationDegrees;
 		impactEffect.GlobalPosition = GlobalPosition;
 		
-		GetTree().Root.CallDeferred("add_child", impactEffect);
+		GetTree().CurrentScene.CallDeferred("add_child", impactEffect);
 
 		Engine.TimeScale = 0;
 

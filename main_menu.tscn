@@ -54,6 +54,13 @@ size_flags_vertical = 4
 text = "Exit
 "
 
+[node name="Info" type="Label" parent="."]
+offset_left = 518.0
+offset_top = 449.0
+offset_right = 635.0
+offset_bottom = 472.0
+text = "<ESC> to pause"
+
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Armory" to="." method="_on_armory_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

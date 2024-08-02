@@ -9,7 +9,6 @@ public partial class MainMenu : CanvasLayer
 		// GetTree().ChangeSceneToFile();
 	}
 
-
 	private void _on_armory_pressed()
 	{
 		GetTree().ChangeSceneToFile("res://armory.tscn");

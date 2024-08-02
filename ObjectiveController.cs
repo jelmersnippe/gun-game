@@ -5,17 +5,25 @@ using Godot.Collections;
 
 public partial class ObjectiveController : Node
 {
+	[Export] public int InitialObjectiveCount = 0;
 	public event Action<IReadOnlyList<Objective>>? ObjectivesUpdated;
 	public event Action<Objective>? ObjectiveCompleted;
 	
 	private readonly List<Objective> _activeObjectives = new();
+	
 
 	public override void _Ready()
 	{
 		CombatEventHandler.CombatEventTriggered += CombatEventHandlerOnCombatEventTriggered;
 
 		var initialObjectiveTimer = GetTree().CreateTimer(0.2f);
-		initialObjectiveTimer.Timeout += () => AddObjective(new ProjectilesFiredObjective(30));
+		initialObjectiveTimer.Timeout += () =>
+		{
+			for (var i = 0; i < InitialObjectiveCount; i++)
+			{
+				AddObjective(new ProjectilesFiredObjective(30));
+			}
+		};
 	}
 
 	private void CombatEventHandlerOnCombatEventTriggered(CombatEvent @event)

@@ -36,7 +36,7 @@ public partial class Inventory : Node
 			 	droppedWeaponPickup.SetWeapon(ActiveWeapon);
 				ActiveWeapon.StopFiring();
 				
-			 	GetTree().Root.CallDeferred("add_child", droppedWeaponPickup);
+			 	GetTree().CurrentScene.CallDeferred("add_child", droppedWeaponPickup);
 			} else {
 				ActiveWeapon.QueueFree();
 			}

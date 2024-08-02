@@ -52,14 +52,14 @@ public partial class Weapon : Node2D
 			var rng = new RandomNumberGenerator();
 			projectile.RotationDegrees += rng.RandfRange(-Spread, Spread);
 			
-			GetTree().Root.CallDeferred("add_child", projectile);
+			GetTree().CurrentScene.CallDeferred("add_child", projectile);
 
 			var shell = projectile.Shell.Instantiate<Shell>();
 			shell.GlobalPosition = ShellEjectionPoint.GlobalPosition;
 			shell.Rotation = direction.Angle();
 			shell.Velocity = new Vector2(-direction.Normalized().X * 50, -1 * 200);
 		
-			GetTree().Root.CallDeferred("add_child", shell);
+			GetTree().CurrentScene.CallDeferred("add_child", shell);
 		}
 		
 		// Apply kickback
