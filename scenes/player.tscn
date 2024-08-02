@@ -1,15 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://by2ms8wxqqshl"]
+[gd_scene load_steps=21 format=3 uid="uid://by2ms8wxqqshl"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_becff"]
 [ext_resource type="Script" path="res://components/VelocityComponent.cs" id="2_02un2"]
 [ext_resource type="Script" path="res://components/MovementComponent.cs" id="3_pqu6q"]
 [ext_resource type="Script" path="res://components/InputComponent.cs" id="4_1fvdj"]
 [ext_resource type="Texture2D" uid="uid://c6n8o825kl6rk" path="res://sprites/character.png" id="5_hf84n"]
-[ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="7_ccyhf"]
 [ext_resource type="Script" path="res://Inventory.cs" id="7_dg0ip"]
+[ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="7_oc6b5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pj8us"]
-size = Vector2(40, 40)
+size = Vector2(22, 44)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ik1j0"]
 atlas = ExtResource("5_hf84n")
@@ -94,7 +94,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("VelocityComponent", "InputComponent", "Sprite", "Inventory", "Hand")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_8wmj4"]
+radius = 60.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("VelocityComponent", "InputComponent", "Sprite", "Inventory", "Hand", "PickupRadius")]
+z_index = 10
 position = Vector2(0, -1)
 motion_mode = 1
 script = ExtResource("1_becff")
@@ -103,6 +107,7 @@ InputComponent = NodePath("InputComponent")
 Sprite = NodePath("AnimatedSprite2D")
 Inventory = NodePath("Inventory")
 Hand = NodePath("Hand")
+PickupRadius = NodePath("PickupRadius")
 
 [node name="VelocityComponent" type="Node" parent="."]
 script = ExtResource("2_02un2")
@@ -116,6 +121,7 @@ VelocityComponent = NodePath("../VelocityComponent")
 script = ExtResource("4_1fvdj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 3)
 shape = SubResource("RectangleShape2D_pj8us")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -129,4 +135,9 @@ position = Vector2(0, 8)
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("7_dg0ip")
-DefaultWeapon = ExtResource("7_ccyhf")
+DefaultWeapon = ExtResource("7_oc6b5")
+
+[node name="PickupRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
+shape = SubResource("CircleShape2D_8wmj4")

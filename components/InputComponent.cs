@@ -12,6 +12,9 @@ public partial class InputComponent : Node
 	[Signal]
 	public delegate void AttackReleasedEventHandler();
 	
+	[Signal]
+	public delegate void InteractInputEventHandler();
+	
 	public override void _PhysicsProcess(double delta)
 	{
 		var direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
@@ -20,6 +23,11 @@ public partial class InputComponent : Node
 		if (Input.IsActionPressed("attack"))
 		{
 			EmitSignal(SignalName.AttackInput);
+		}
+		
+		if (Input.IsActionJustPressed("interact"))
+		{
+			EmitSignal(SignalName.InteractInput);
 		}
 	}
 

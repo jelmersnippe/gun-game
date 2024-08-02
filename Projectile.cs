@@ -14,7 +14,7 @@ public partial class Projectile : Area2D {
 	private void OnAreaEntered(Area2D area)
 	{
 		var impactEffect = ImpactEffect.Instantiate<ImpactEffect>();
-		impactEffect.Rotation = GlobalPosition.DirectionTo(area.GlobalPosition).Angle();
+		impactEffect.RotationDegrees = RotationDegrees;
 		impactEffect.GlobalPosition = GlobalPosition;
 		
 		GetTree().Root.CallDeferred("add_child", impactEffect);

@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://yw80x881be3q"]
+[gd_scene load_steps=7 format=3 uid="uid://yw80x881be3q"]
 
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="1_pw8o1"]
 [ext_resource type="PackedScene" uid="uid://bd5wqt2ikwe04" path="res://scenes/dummy.tscn" id="2_us86r"]
+[ext_resource type="PackedScene" uid="uid://4cpy8j5k3dgk" path="res://pickup.tscn" id="3_oxcqb"]
+[ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="4_2k03y"]
+[ext_resource type="PackedScene" uid="uid://ckfxfkyvjyedj" path="res://scenes/weapons/pistol.tscn" id="5_ucsd8"]
+[ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="6_u5e4t"]
 
 [node name="Main" type="Node2D"]
 
@@ -10,3 +14,15 @@ position = Vector2(294, 272)
 
 [node name="Dummy" parent="." instance=ExtResource("2_us86r")]
 position = Vector2(627, 360)
+
+[node name="Pickup" parent="." instance=ExtResource("3_oxcqb")]
+position = Vector2(410, 415)
+WeaponScene = ExtResource("4_2k03y")
+
+[node name="Pickup2" parent="." instance=ExtResource("3_oxcqb")]
+position = Vector2(525, 227)
+WeaponScene = ExtResource("5_ucsd8")
+
+[node name="Pickup3" parent="." instance=ExtResource("3_oxcqb")]
+position = Vector2(637, 442)
+WeaponScene = ExtResource("6_u5e4t")

@@ -19,7 +19,6 @@ DistanceBetweenProjectiles = 0.0
 Sound = ExtResource("3_ydsds")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(24, -2)
 scale = Vector2(2, 2)
 texture = ExtResource("4_xharv")
 
