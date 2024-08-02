@@ -21,7 +21,7 @@ public partial class Projectile : Area2D {
 
 		Engine.TimeScale = 0;
 
-		var hitStopTimer = GetTree().CreateTimer(0.05f, ignoreTimeScale: true);
+		var hitStopTimer = GetTree().CreateTimer(0.02f, ignoreTimeScale: true);
 		hitStopTimer.Timeout += () => Engine.TimeScale = 1f;
 	}
 

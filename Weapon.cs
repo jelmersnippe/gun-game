@@ -80,16 +80,18 @@ public partial class Weapon : Node2D
 
 	public override void _Process(double delta)
 	{
-		var directionToMouse = GlobalPosition.DirectionTo(GetGlobalMousePosition());
-		Sprite.FlipV = directionToMouse.X < 0;
-
-		
 		Position = Position.MoveToward(Vector2.Zero, 30 * (float)delta);
 	}
 
 	public void StopFiring()
 	{
 		_waitingForTriggerRelease = false;
+	}
+
+	public void RotateToMouse()
+	{
+		var directionToMouse = GlobalPosition.DirectionTo(GetGlobalMousePosition());
+		Sprite.FlipV = directionToMouse.X < 0;
 	}
 }
 

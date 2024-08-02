@@ -59,6 +59,8 @@ public partial class Player : CharacterBody2D
 		var directionToMouse = Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition());
 		Hand.Rotation = directionToMouse.Angle();
 		Sprite.FlipH = directionToMouse.X < 0;
+		
+		Inventory.ActiveWeapon?.RotateToMouse();
 	}
 
 	private void EnterPickupArea(Area2D area)

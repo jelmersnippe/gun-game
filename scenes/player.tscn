@@ -100,6 +100,7 @@ radius = 60.0
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("VelocityComponent", "InputComponent", "Sprite", "Inventory", "Hand", "PickupRadius")]
 z_index = 10
 position = Vector2(0, -1)
+collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_becff")
 VelocityComponent = NodePath("VelocityComponent")
@@ -138,6 +139,7 @@ script = ExtResource("7_dg0ip")
 DefaultWeapon = ExtResource("7_oc6b5")
 
 [node name="PickupRadius" type="Area2D" parent="."]
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 shape = SubResource("CircleShape2D_8wmj4")
