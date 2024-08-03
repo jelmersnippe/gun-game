@@ -20,7 +20,7 @@ public partial class HurtboxComponent : Area2D {
 
 		EmitSignal(SignalName.Hit, hitboxComponent, GlobalPosition.DirectionTo(hitboxComponent.GlobalPosition));
 
-		if (Sprite != null) {
+		if (Sprite != null && Sprite.SpriteFrames.HasAnimation("Hurt")) {
 			Sprite.Play("Hurt");
 
 			SceneTreeTimer? hurtTimer = GetTree().CreateTimer(HurtTime);

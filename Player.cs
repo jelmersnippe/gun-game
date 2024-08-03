@@ -7,6 +7,8 @@ public partial class Player : CharacterBody2D {
 
 	[Export] public GunRegistry? GunRegistry;
 	[Export] public Node2D Hand;
+	[Export] public HealthComponent HealthComponent;
+	[Export] public HurtboxComponent HurtboxComponent;
 	[Export] public InputComponent InputComponent;
 	[Export] public Inventory Inventory;
 	[Export] public ObjectiveController? ObjectiveController;
@@ -16,11 +18,11 @@ public partial class Player : CharacterBody2D {
 	[Export] public AnimatedSprite2D Sprite;
 	[Export] public VelocityComponent VelocityComponent;
 
-
 	public override void _Ready() {
 		InputComponent.MoveInput += movement => {
 			if (movement != Vector2.Zero) {
 				VelocityComponent.Velocity += movement * Speed;
+
 				Sprite.Play("Move");
 			}
 			else {
@@ -46,6 +48,16 @@ public partial class Player : CharacterBody2D {
 
 		Weapon? startingWeapon = GunRegistry?.GetNext();
 		Inventory.Equip(startingWeapon);
+
+		HurtboxComponent.Hit += (component, direction) => HealthComponent.TakeDamage(component.ContactDamage);
+		HealthComponent.Died += HealthComponentOnDied;
+	}
+
+	private void HealthComponentOnDied() {
+		// TODO: Spawn effects
+		// TODO: Show game over screen
+		GD.Print("Died");
+		QueueFree();
 	}
 
 	private void ObjectiveControllerOnObjectiveCompleted(Objective obj) {

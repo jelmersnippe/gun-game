@@ -25,8 +25,13 @@ public partial class Enemy : CharacterBody2D {
 	}
 
 	public override void _PhysicsProcess(double delta) {
+		if (!IsInstanceValid(Target)) {
+			Target = null;
+		}
+
 		if (Target == null) {
 			VelocityComponent.Velocity = Vector2.Zero;
+			Sprite.Play("Idle");
 			return;
 		}
 
@@ -34,12 +39,6 @@ public partial class Enemy : CharacterBody2D {
 		VelocityComponent.Velocity += direction * Speed;
 
 		Sprite.FlipH = direction.X < 0;
-
-		if (VelocityComponent.Velocity.Length() > 0) {
-			Sprite.Play("Move");
-		}
-		else {
-			Sprite.Play("Idle");
-		}
+		Sprite.Play("Move");
 	}
 }

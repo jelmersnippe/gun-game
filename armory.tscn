@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://5bton5klmkam"]
+[gd_scene load_steps=7 format=3 uid="uid://5bton5klmkam"]
 
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="1_cddg1"]
 [ext_resource type="PackedScene" uid="uid://bd5wqt2ikwe04" path="res://scenes/dummy.tscn" id="2_q71uc"]
@@ -6,16 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="4_r3bbl"]
 [ext_resource type="PackedScene" uid="uid://ckfxfkyvjyedj" path="res://scenes/weapons/pistol.tscn" id="5_iicmh"]
 [ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="6_elvyh"]
-[ext_resource type="Script" path="res://ObjectiveController.cs" id="7_nllup"]
-[ext_resource type="Script" path="res://ObjectivesDisplay.cs" id="8_3s1qj"]
-[ext_resource type="Script" path="res://GunRegistry.cs" id="9_4ltqy"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Player" parent="." node_paths=PackedStringArray("ObjectiveController", "GunRegistry") instance=ExtResource("1_cddg1")]
+[node name="Player" parent="." node_paths=PackedStringArray("GunRegistry", "ObjectiveController") instance=ExtResource("1_cddg1")]
 position = Vector2(294, 272)
-ObjectiveController = NodePath("../ObjectiveController")
-GunRegistry = NodePath("../GunRegistry")
+GunRegistry = NodePath("")
+ObjectiveController = NodePath("")
 
 [node name="Dummy" parent="." instance=ExtResource("2_q71uc")]
 position = Vector2(627, 360)
@@ -31,19 +28,3 @@ WeaponScene = ExtResource("5_iicmh")
 [node name="MinigunPickup" parent="." instance=ExtResource("3_ddmpt")]
 position = Vector2(676, 199)
 WeaponScene = ExtResource("6_elvyh")
-
-[node name="ObjectiveController" type="Node" parent="."]
-script = ExtResource("7_nllup")
-
-[node name="Label" type="Label" parent="." node_paths=PackedStringArray("ObjectiveController")]
-offset_left = 13.0
-offset_top = 13.0
-offset_right = 98.0
-offset_bottom = 36.0
-text = "Objectives:"
-script = ExtResource("8_3s1qj")
-ObjectiveController = NodePath("../ObjectiveController")
-
-[node name="GunRegistry" type="Node" parent="."]
-script = ExtResource("9_4ltqy")
-WeaponScenes = [ExtResource("5_iicmh"), ExtResource("4_r3bbl"), ExtResource("6_elvyh")]

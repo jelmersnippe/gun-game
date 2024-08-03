@@ -6,6 +6,10 @@ public partial class Camera : Camera2D {
 	[Export] public Node2D? Target;
 
 	public override void _Process(double delta) {
+		if (!IsInstanceValid(Target)) {
+			Target = null;
+		}
+
 		if (Target == null) {
 			return;
 		}

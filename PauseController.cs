@@ -45,4 +45,9 @@ public partial class PauseController : CanvasLayer {
 	private void _on_exit_pressed() {
 		GetTree().Quit();
 	}
+
+	private void _on_restart_pressed() {
+		GetTree().ReloadCurrentScene();
+		Toggle();
+	}
 }

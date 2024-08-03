@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3gt3rm2owjqg"]
+
+[ext_resource type="Script" path="res://ObjectivesDisplay.cs" id="1_l3elj"]
+
+[node name="ObjectiveDisplay" type="Label" node_paths=PackedStringArray("ObjectiveController")]
+offset_left = 13.0
+offset_top = 13.0
+offset_right = 98.0
+offset_bottom = 36.0
+text = "Objectives:"
+script = ExtResource("1_l3elj")
+ObjectiveController = NodePath("")

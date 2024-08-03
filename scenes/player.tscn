@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://by2ms8wxqqshl"]
+[gd_scene load_steps=24 format=3 uid="uid://by2ms8wxqqshl"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_becff"]
 [ext_resource type="PackedScene" uid="uid://dcmhm20gh27ks" path="res://components/velocity_component.tscn" id="2_t27pl"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://fa317drr05dg" path="res://components/input_component.tscn" id="4_wr6ei"]
 [ext_resource type="Texture2D" uid="uid://c6n8o825kl6rk" path="res://sprites/character.png" id="5_hf84n"]
 [ext_resource type="Script" path="res://Inventory.cs" id="7_dg0ip"]
-[ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="7_oc6b5"]
+[ext_resource type="PackedScene" uid="uid://bc6yggbqrf7av" path="res://components/hurtbox_component.tscn" id="8_mfkke"]
+[ext_resource type="PackedScene" uid="uid://bivy37bqys46e" path="res://scenes/hitflash_component.tscn" id="9_ohy17"]
+[ext_resource type="PackedScene" uid="uid://bu4l6fmpvb5im" path="res://components/health_component.tscn" id="10_qinsl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pj8us"]
 size = Vector2(22, 44)
@@ -97,13 +99,18 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wmj4"]
 radius = 60.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("Hand", "InputComponent", "Inventory", "PickupRadius", "Sprite", "VelocityComponent")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8jkmi"]
+size = Vector2(18, 29)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("Hand", "HealthComponent", "HurtboxComponent", "InputComponent", "Inventory", "PickupRadius", "Sprite", "VelocityComponent")]
 z_index = 10
 position = Vector2(0, -1)
 collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_becff")
 Hand = NodePath("Hand")
+HealthComponent = NodePath("HealthComponent")
+HurtboxComponent = NodePath("HurtboxComponent")
 InputComponent = NodePath("InputComponent")
 Inventory = NodePath("Inventory")
 PickupRadius = NodePath("PickupRadius")
@@ -134,10 +141,25 @@ position = Vector2(0, 8)
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("7_dg0ip")
 CreatePickupForWeapons = true
-DefaultWeapon = ExtResource("7_oc6b5")
 
 [node name="PickupRadius" type="Area2D" parent="."]
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRadius"]
 shape = SubResource("CircleShape2D_8wmj4")
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("HitflashComponent", "Sprite") instance=ExtResource("8_mfkke")]
+collision_layer = 1
+collision_mask = 2
+HitflashComponent = NodePath("../HitflashComponent")
+Sprite = NodePath("../AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(-1, 8.5)
+shape = SubResource("RectangleShape2D_8jkmi")
+
+[node name="HitflashComponent" parent="." node_paths=PackedStringArray("Sprite") instance=ExtResource("9_ohy17")]
+Sprite = NodePath("../AnimatedSprite2D")
+
+[node name="HealthComponent" parent="." instance=ExtResource("10_qinsl")]
+StartingHealth = 1

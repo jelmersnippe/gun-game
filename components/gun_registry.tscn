@@ -1,0 +1,10 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwhoqdeuwabns"]
+
+[ext_resource type="Script" path="res://GunRegistry.cs" id="1_6g4ec"]
+[ext_resource type="PackedScene" uid="uid://ckfxfkyvjyedj" path="res://scenes/weapons/pistol.tscn" id="2_8null"]
+[ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="3_eff1j"]
+[ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="4_apqer"]
+
+[node name="GunRegistry" type="Node"]
+script = ExtResource("1_6g4ec")
+WeaponScenes = [ExtResource("2_8null"), ExtResource("3_eff1j"), ExtResource("4_apqer")]
