@@ -55,10 +55,17 @@ text = "Exit
 "
 
 [node name="Info" type="Label" parent="."]
-offset_left = 518.0
-offset_top = 449.0
-offset_right = 635.0
-offset_bottom = 472.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.0
+offset_top = 93.0
+offset_right = 59.0
+offset_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "<ESC> to pause"
 
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
