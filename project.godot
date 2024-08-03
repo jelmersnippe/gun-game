@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 PauseMenu="*res://pause_menu.tscn"
 MouseOverlay="*res://mouse_overlay.tscn"
+GameOverMenu="*res://game_over_menu.tscn"
 
 [dotnet]
 

@@ -55,8 +55,7 @@ public partial class Player : CharacterBody2D {
 
 	private void HealthComponentOnDied() {
 		// TODO: Spawn effects
-		// TODO: Show game over screen
-		GD.Print("Died");
+		GameOverMenu.Instance.Show();
 		QueueFree();
 	}
 
