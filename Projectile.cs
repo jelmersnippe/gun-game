@@ -1,32 +1,35 @@
 using Godot;
-using System;
 
 public partial class Projectile : Area2D {
-	[Export] public PackedScene Shell;
-	[Export] public PackedScene ImpactEffect;
-	[Export] public float Speed = 200f;
+    [Export] public PackedScene ImpactEffect;
+    [Export] public PackedScene Shell;
+    [Export] public float Speed = 200f;
 
-	public override void _Ready()
-	{
-		AreaEntered += OnAreaEntered;
-	}
+    public override void _Ready() {
+        AreaEntered += OnAreaEntered;
+        BodyEntered += HandleCollision;
+    }
 
-	private void OnAreaEntered(Area2D area)
-	{
-		var impactEffect = ImpactEffect.Instantiate<ImpactEffect>();
-		impactEffect.RotationDegrees = RotationDegrees;
-		impactEffect.GlobalPosition = GlobalPosition;
-		
-		GetTree().CurrentScene.CallDeferred("add_child", impactEffect);
+    private void OnAreaEntered(Area2D area) {
+        HandleCollision(area);
+    }
 
-		Engine.TimeScale = 0;
+    public override void _Process(double delta) {
+        Position += Transform.X * Speed * (float)delta;
+    }
 
-		var hitStopTimer = GetTree().CreateTimer(0.02f, ignoreTimeScale: true);
-		hitStopTimer.Timeout += () => Engine.TimeScale = 1f;
-	}
+    private void HandleCollision(Node2D node) {
+        var impactEffect = ImpactEffect.Instantiate<ImpactEffect>();
+        impactEffect.RotationDegrees = RotationDegrees;
+        impactEffect.GlobalPosition = GlobalPosition;
 
-	public override void _Process(double delta)
-	{
-		Position += Transform.X * Speed * (float)delta;
-	}
+        GetTree().CurrentScene.CallDeferred("add_child", impactEffect);
+
+        Engine.TimeScale = 0;
+
+        SceneTreeTimer? hitStopTimer = GetTree().CreateTimer(0.02f, ignoreTimeScale: true);
+        hitStopTimer.Timeout += () => Engine.TimeScale = 1f;
+
+        QueueFree();
+    }
 }

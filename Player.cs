@@ -1,117 +1,104 @@
 using Godot;
-using System;
 
-public partial class Player : CharacterBody2D
-{
-	[Export] public ObjectiveController ObjectiveController;
-	[Export] public GunRegistry GunRegistry;
-	
-	[Export] public VelocityComponent VelocityComponent;
-	[Export] public InputComponent InputComponent;
-	[Export] public AnimatedSprite2D Sprite;
-	[Export] public Inventory Inventory;
-	[Export] public Node2D Hand;
-	[Export] public Area2D PickupRadius;
+public partial class Player : CharacterBody2D {
+    private Pickup? _availablePickup;
 
-	[Export] public Vector2 CarryingOffset = new(24, -2);
-	
-	[Export] public float Speed = 200f;
+    [Export] public Vector2 CarryingOffset = new(24, -2);
+    [Export] public GunRegistry GunRegistry;
+    [Export] public Node2D Hand;
+    [Export] public InputComponent InputComponent;
+    [Export] public Inventory Inventory;
+    [Export] public ObjectiveController ObjectiveController;
+    [Export] public Area2D PickupRadius;
 
-	private Pickup? _availablePickup;
+    [Export] public float Speed = 200f;
+    [Export] public AnimatedSprite2D Sprite;
 
-	public override void _Ready()
-	{
-		InputComponent.MoveInput += movement => {
-			if (movement != Vector2.Zero) {
-				VelocityComponent.Velocity += movement * Speed;
-				Sprite.Play("Move");
-			}
-			else {
-				Sprite.Play("Idle");
-			}
-		};
-		InputComponent.AttackInput += InputComponentOnAttackInput; 
-		InputComponent.AttackReleased += () => Inventory.ActiveWeapon?.StopFiring();
-		InputComponent.InteractInput += Interact;
-		
-		if (Inventory.ActiveWeapon != null) {
-			EquipWeapon(Inventory.ActiveWeapon);
-		}
-		Inventory.WeaponEquipped += EquipWeapon;
+    [Export] public VelocityComponent VelocityComponent;
 
-		PickupRadius.AreaEntered += EnterPickupArea;
-		PickupRadius.AreaExited += ExitPickupArea;
-		
-		ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
+    public override void _Ready() {
+        InputComponent.MoveInput += movement => {
+            if (movement != Vector2.Zero) {
+                VelocityComponent.Velocity += movement * Speed;
+                Sprite.Play("Move");
+            }
+            else {
+                Sprite.Play("Idle");
+            }
+        };
+        InputComponent.AttackInput += InputComponentOnAttackInput;
+        InputComponent.AttackReleased += () => Inventory.ActiveWeapon?.StopFiring();
+        InputComponent.InteractInput += Interact;
 
-		var startingWeapon = GunRegistry.GetNext();
-		Inventory.Equip(startingWeapon);
-	}
+        if (Inventory.ActiveWeapon != null) {
+            EquipWeapon(Inventory.ActiveWeapon);
+        }
 
-	private void ObjectiveControllerOnObjectiveCompleted(Objective obj)
-	{
-		Inventory.Equip(GunRegistry.GetNext());
-	}
+        Inventory.WeaponEquipped += EquipWeapon;
 
-	private void EquipWeapon(Weapon weapon)
-	{
-		Hand.AddChild(weapon);
-		weapon.Reload();
-		weapon.Sprite.Position = CarryingOffset;
-	}
+        PickupRadius.AreaEntered += EnterPickupArea;
+        PickupRadius.AreaExited += ExitPickupArea;
 
-	private void InputComponentOnAttackInput() {
-		var kickback = Inventory.ActiveWeapon?.Fire(Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition()));
+        ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
 
-		if (kickback.HasValue) {
-			VelocityComponent.Velocity += kickback.Value;
-		}
-	}
+        Weapon? startingWeapon = GunRegistry.GetNext();
+        Inventory.Equip(startingWeapon);
+    }
 
-	public override void _Process(double delta)
-	{
-		var directionToMouse = Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition());
-		Hand.Rotation = directionToMouse.Angle();
-		Sprite.FlipH = directionToMouse.X < 0;
-		
-		Inventory.ActiveWeapon?.RotateToMouse();
-	}
+    private void ObjectiveControllerOnObjectiveCompleted(Objective obj) {
+        Inventory.Equip(GunRegistry.GetNext());
+    }
 
-	private void EnterPickupArea(Area2D area)
-	{
-		if (area is not Pickup pickup)
-		{
-			return;
-		}
-		
-		_availablePickup?.ShowInteractable(false);
+    private void EquipWeapon(Weapon weapon) {
+        Hand.AddChild(weapon);
+        weapon.Reload();
+        weapon.Sprite.Position = CarryingOffset;
+    }
 
-		_availablePickup = pickup;
-		_availablePickup.ShowInteractable(true);
-	}
-	
-	private void ExitPickupArea(Area2D area)
-	{
-		if (area is not Pickup pickup)
-		{
-			return;
-		}
+    private void InputComponentOnAttackInput() {
+        var kickback = Inventory.ActiveWeapon?.Fire(Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition()));
 
-		if (pickup == _availablePickup)
-		{
-			_availablePickup.ShowInteractable(false);
-			_availablePickup = null;
-		}
-	}
+        if (kickback.HasValue) {
+            VelocityComponent.Velocity += kickback.Value;
+        }
+    }
 
-	private void Interact()
-	{
-		if (_availablePickup?.Weapon == null)
-		{
-			return;
-		}
+    public override void _Process(double delta) {
+        Vector2 directionToMouse = Hand.GlobalPosition.DirectionTo(GetGlobalMousePosition());
+        Hand.Rotation = directionToMouse.Angle();
+        Sprite.FlipH = directionToMouse.X < 0;
 
-		Inventory.Equip(_availablePickup.Weapon);
-		_availablePickup.QueueFree();
-	}
+        Inventory.ActiveWeapon?.RotateToMouse();
+    }
+
+    private void EnterPickupArea(Area2D area) {
+        if (area is not Pickup pickup) {
+            return;
+        }
+
+        _availablePickup?.ShowInteractable(false);
+
+        _availablePickup = pickup;
+        _availablePickup.ShowInteractable(true);
+    }
+
+    private void ExitPickupArea(Area2D area) {
+        if (area is not Pickup pickup) {
+            return;
+        }
+
+        if (pickup == _availablePickup) {
+            _availablePickup.ShowInteractable(false);
+            _availablePickup = null;
+        }
+    }
+
+    private void Interact() {
+        if (_availablePickup?.Weapon == null) {
+            return;
+        }
+
+        Inventory.Equip(_availablePickup.Weapon);
+        _availablePickup.QueueFree();
+    }
 }
