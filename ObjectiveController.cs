@@ -8,10 +8,15 @@ public partial class ObjectiveController : Node {
 	public event Action<IReadOnlyList<Objective>>? ObjectivesUpdated;
 	public event Action<Objective>? ObjectiveCompleted;
 
+	public override void _EnterTree() {
+		CombatEventHandler.CombatEventTriggered += CombatEventHandlerOnCombatEventTriggered;
+	}
+
+	public override void _ExitTree() {
+		CombatEventHandler.CombatEventTriggered -= CombatEventHandlerOnCombatEventTriggered;
+	}
 
 	public override void _Ready() {
-		CombatEventHandler.CombatEventTriggered += CombatEventHandlerOnCombatEventTriggered;
-
 		SceneTreeTimer? initialObjectiveTimer = GetTree().CreateTimer(0.2f);
 		initialObjectiveTimer.Timeout += () => {
 			for (int i = 0; i < InitialObjectiveCount; i++) {
