@@ -1,48 +1,48 @@
 using Godot;
 
 public partial class Inventory : Node {
-    [Signal]
-    public delegate void WeaponEquippedEventHandler(Weapon equippedWeapon);
+	[Signal]
+	public delegate void WeaponEquippedEventHandler(Weapon equippedWeapon);
 
-    private readonly PackedScene _pickupScene = ResourceLoader.Load<PackedScene>("res://pickup.tscn");
+	private readonly PackedScene _pickupScene = ResourceLoader.Load<PackedScene>("res://pickup.tscn");
 
-    [Export] public bool CreatePickupForWeapons;
-    [Export] public PackedScene? DefaultWeapon;
-    public Weapon? ActiveWeapon { get; private set; }
+	[Export] public bool CreatePickupForWeapons;
+	[Export] public PackedScene? DefaultWeapon;
+	public Weapon? ActiveWeapon { get; private set; }
 
-    public override void _Ready() {
-        if (DefaultWeapon == null) {
-            return;
-        }
+	public override void _Ready() {
+		if (DefaultWeapon == null) {
+			return;
+		}
 
-        var weaponInstance = DefaultWeapon.Instantiate<Weapon>();
-        Equip(weaponInstance);
-    }
+		var weaponInstance = DefaultWeapon.Instantiate<Weapon>();
+		Equip(weaponInstance);
+	}
 
-    public void Equip(Weapon? weapon) {
-        if (ActiveWeapon != null) {
-            if (CreatePickupForWeapons) {
-                Node? activeWeaponParent = ActiveWeapon.GetParent();
-                activeWeaponParent?.RemoveChild(ActiveWeapon);
+	public void Equip(Weapon? weapon) {
+		if (ActiveWeapon != null) {
+			if (CreatePickupForWeapons) {
+				Node? activeWeaponParent = ActiveWeapon.GetParent();
+				activeWeaponParent?.RemoveChild(ActiveWeapon);
 
-                var droppedWeaponPickup = _pickupScene.Instantiate<Pickup>();
-                droppedWeaponPickup.GlobalPosition = (GetParent() as Node2D)!.GlobalPosition;
-                droppedWeaponPickup.SetWeapon(ActiveWeapon);
-                ActiveWeapon.StopFiring();
+				var droppedWeaponPickup = _pickupScene.Instantiate<Pickup>();
+				droppedWeaponPickup.GlobalPosition = (GetParent() as Node2D)!.GlobalPosition;
+				droppedWeaponPickup.SetWeapon(ActiveWeapon);
+				ActiveWeapon.StopFiring();
 
-                GetTree().CurrentScene.CallDeferred("add_child", droppedWeaponPickup);
-            }
-            else {
-                ActiveWeapon.QueueFree();
-            }
-        }
+				GetTree().CurrentScene.CallDeferred("add_child", droppedWeaponPickup);
+			}
+			else {
+				ActiveWeapon.QueueFree();
+			}
+		}
 
-        Node? weaponParent = weapon?.GetParent();
-        weaponParent?.RemoveChild(weapon);
+		Node? weaponParent = weapon?.GetParent();
+		weaponParent?.RemoveChild(weapon);
 
-        ActiveWeapon = weapon;
-        if (ActiveWeapon != null) {
-            EmitSignal(SignalName.WeaponEquipped, ActiveWeapon);
-        }
-    }
+		ActiveWeapon = weapon;
+		if (ActiveWeapon != null) {
+			EmitSignal(SignalName.WeaponEquipped, ActiveWeapon);
+		}
+	}
 }

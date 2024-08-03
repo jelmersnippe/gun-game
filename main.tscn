@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxrstrbbhix1h"]
+[gd_scene load_steps=6 format=3 uid="uid://bxrstrbbhix1h"]
 
 [ext_resource type="Texture2D" uid="uid://jxetnlp7tsun" path="res://sprites/tileset.png" id="1_2m4so"]
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="1_pw8o1"]
+[ext_resource type="Script" path="res://Camera.cs" id="3_wurdr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_msxsp"]
 texture = ExtResource("1_2m4so")
@@ -27,3 +28,6 @@ layer_0/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536
 
 [node name="Player" parent="." instance=ExtResource("1_pw8o1")]
 position = Vector2(529, 309)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_wurdr")
