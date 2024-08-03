@@ -2,15 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Godot.Collections;
 
 public partial class ObjectiveController : Node {
 	private readonly List<Objective> _activeObjectives = new();
 
-	private readonly List<Func<int, Objective>> _availableObjectives = new() {
-		requiredProgression => new ProjectilesFiredObjective(requiredProgression),
-		requiredProgression => new EnemiesKilledObjective(requiredProgression),
-		requiredProgression => new AccuracyObjective(requiredProgression)
-	};
+	[Export] public Array<Objective> _availableObjectives = new();
 
 	[Export] public int InitialObjectiveCount;
 	public event Action<IReadOnlyList<Objective>>? ObjectivesUpdated;
@@ -45,9 +42,9 @@ public partial class ObjectiveController : Node {
 	private void AddRandomObjective() {
 		var rng = new RandomNumberGenerator();
 		int objectiveIndex = rng.RandiRange(0, _availableObjectives.Count - 1);
-		var objectiveCreation = _availableObjectives[objectiveIndex];
+		Objective objectiveResource = _availableObjectives[objectiveIndex];
 
-		Objective objective = objectiveCreation(30);
+		var objective = objectiveResource.Duplicate() as Objective;
 
 		if (_activeObjectives.Any(x => x.GetType() == objective.GetType())) {
 			AddRandomObjective();

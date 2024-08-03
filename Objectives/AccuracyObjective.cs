@@ -1,7 +1,7 @@
-﻿public partial class AccuracyObjective : Objective {
-	public AccuracyObjective(int requiredProgression) : base(requiredProgression) {
-	}
+﻿using Godot;
 
+[GlobalClass]
+public partial class AccuracyObjective : Objective {
 	protected override string ObjectiveText(int requiredProgression) {
 		return $"Fire {requiredProgression} projectiles without missing";
 	}

@@ -1,7 +1,7 @@
-﻿public partial class ProjectilesFiredObjective : Objective {
-	public ProjectilesFiredObjective(int requiredProgression) : base(requiredProgression) {
-	}
+﻿using Godot;
 
+[GlobalClass]
+public partial class ProjectilesFiredObjective : Objective {
 	protected override string ObjectiveText(int requiredProgression) {
 		return $"Fire {requiredProgression} projectiles";
 	}

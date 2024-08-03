@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AccuracyObjective" load_steps=2 format=3 uid="uid://dj4dijx48wnpw"]
+
+[ext_resource type="Script" path="res://Objectives/AccuracyObjective.cs" id="1_6u1qw"]
+
+[resource]
+script = ExtResource("1_6u1qw")
+DefaultRequiredProgression = 20
+DifficultyScaling = 1

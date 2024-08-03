@@ -1,7 +1,7 @@
-﻿public partial class EnemiesKilledObjective : Objective {
-	public EnemiesKilledObjective(int requiredProgression) : base(requiredProgression) {
-	}
+﻿using Godot;
 
+[GlobalClass]
+public partial class EnemiesKilledObjective : Objective {
 	protected override string ObjectiveText(int requiredProgression) {
 		return $"Kill {requiredProgression} enemies";
 	}

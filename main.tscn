@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxrstrbbhix1h"]
+[gd_scene load_steps=12 format=3 uid="uid://bxrstrbbhix1h"]
 
 [ext_resource type="Texture2D" uid="uid://jxetnlp7tsun" path="res://sprites/tileset.png" id="1_2m4so"]
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="1_pw8o1"]
 [ext_resource type="PackedScene" uid="uid://bkq58rpr6j1t2" path="res://camera.tscn" id="3_dtqfa"]
+[ext_resource type="Resource" uid="uid://dj4dijx48wnpw" path="res://Objectives/accuracy_objective.tres" id="5_6s358"]
 [ext_resource type="PackedScene" uid="uid://c3gt3rm2owjqg" path="res://components/objective_display.tscn" id="5_08uhv"]
 [ext_resource type="PackedScene" uid="uid://dkoyksg18yyav" path="res://components/objective_controller.tscn" id="6_jxloy"]
+[ext_resource type="Resource" uid="uid://t4q1d7f2h5d1" path="res://Objectives/enemies_killed_objective.tres" id="6_ml0yw"]
 [ext_resource type="PackedScene" uid="uid://cwhoqdeuwabns" path="res://components/gun_registry.tscn" id="7_lv881"]
 [ext_resource type="Script" path="res://Spawner.cs" id="8_78c4v"]
 
@@ -40,6 +42,7 @@ zoom = Vector2(1.2, 1.2)
 Target = NodePath("../Player")
 
 [node name="ObjectiveController" parent="." instance=ExtResource("6_jxloy")]
+_availableObjectives = [ExtResource("5_6s358"), ExtResource("6_ml0yw")]
 InitialObjectiveCount = 3
 
 [node name="GunRegistry" parent="." instance=ExtResource("7_lv881")]

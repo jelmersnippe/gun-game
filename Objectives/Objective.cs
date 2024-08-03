@@ -1,21 +1,23 @@
-﻿using System.Dynamic;
 using Godot;
 
-public abstract partial class Objective : RefCounted {
+[GlobalClass]
+public abstract partial class Objective : Resource {
 	[Signal]
 	public delegate void CompletedEventHandler(Objective objective);
 
 	private int _currentProgression;
 
-	protected Objective(int requiredProgression) {
-		RequiredProgression = requiredProgression;
-	}
+	[Export] public int DefaultRequiredProgression = 5;
+	[Export] public int DifficultyScaling = 1;
+	private int RequiredProgression => DefaultRequiredProgression * DifficultyScaling;
 
-	private int RequiredProgression { get; }
-	public string DisplayText => ObjectiveText(RequiredProgression) + $" ({_currentProgression}/{RequiredProgression})";
+	public string DisplayText =>
+		ObjectiveText(RequiredProgression) + $" ({_currentProgression}/{RequiredProgression})";
+
 	protected abstract string ObjectiveText(int requiredProgression);
 
 	protected abstract bool ValidateProgression(CombatEvent @event);
+
 	protected abstract bool ValidateFailure(CombatEvent @event);
 
 	public bool HandleEvent(CombatEvent @event) {
