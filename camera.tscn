@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkq58rpr6j1t2"]
+
+[ext_resource type="Script" path="res://Camera.cs" id="1_bh832"]
+
+[node name="Camera2D" type="Camera2D" node_paths=PackedStringArray("Target")]
+script = ExtResource("1_bh832")
+Target = NodePath("")

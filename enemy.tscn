@@ -1,0 +1,135 @@
+[gd_scene load_steps=20 format=3 uid="uid://cui75dqqm06yd"]
+
+[ext_resource type="Script" path="res://Enemy.cs" id="1_m6goa"]
+[ext_resource type="Texture2D" uid="uid://d23pluq1h7xfq" path="res://sprites/xeno-grunt/spritesheets/2x/xeno-grunt-knockback.png" id="2_0nhk3"]
+[ext_resource type="Texture2D" uid="uid://c7f4d0r6j5uqu" path="res://sprites/xeno-grunt/spritesheets/2x/xeno-grunt-idle.png" id="3_1x5s3"]
+[ext_resource type="Texture2D" uid="uid://4roknfsog0kb" path="res://sprites/xeno-grunt/spritesheets/2x/xeno-grunt-run.png" id="4_6qknc"]
+[ext_resource type="PackedScene" uid="uid://dcmhm20gh27ks" path="res://components/velocity_component.tscn" id="5_hwhnt"]
+[ext_resource type="PackedScene" uid="uid://bbin6wfgan70e" path="res://components/movement_component.tscn" id="6_so7y4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sesqe"]
+size = Vector2(40, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqhvg"]
+atlas = ExtResource("2_0nhk3")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwaj4"]
+atlas = ExtResource("3_1x5s3")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykgh6"]
+atlas = ExtResource("3_1x5s3")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oskav"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1v6dj"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1pwb"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ib4mb"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7htha"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayufv"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8scof"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8oqke"]
+atlas = ExtResource("4_6qknc")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_werbo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqhvg")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwaj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykgh6")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oskav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1v6dj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1pwb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ib4mb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7htha")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayufv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8scof")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8oqke")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "VelocityComponent", "Sprite")]
+collision_layer = 2
+collision_mask = 18
+motion_mode = 1
+script = ExtResource("1_m6goa")
+Speed = 50.0
+MovementComponent = NodePath("MovementComponent")
+VelocityComponent = NodePath("VelocityComponent")
+Sprite = NodePath("AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, -4.5)
+shape = SubResource("RectangleShape2D_sesqe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_werbo")
+animation = &"Move"
+autoplay = "Idle"
+frame_progress = 0.335009
+offset = Vector2(18, -48)
+
+[node name="VelocityComponent" parent="." instance=ExtResource("5_hwhnt")]
+MaxVelocity = 150.0
+TimeToStop = 0.2
+
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("Body", "VelocityComponent") instance=ExtResource("6_so7y4")]
+Body = NodePath("..")
+VelocityComponent = NodePath("../VelocityComponent")
