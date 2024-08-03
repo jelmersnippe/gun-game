@@ -1,12 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://bd5wqt2ikwe04"]
 
 [ext_resource type="Shader" path="res://hit_flash.gdshader" id="1_0vkfi"]
-[ext_resource type="Script" path="res://Dummy.cs" id="1_xgfw4"]
 [ext_resource type="Texture2D" uid="uid://jsje281tyx28" path="res://sprites/Training Dummy Sprite Sheet.png" id="2_vrbwc"]
 [ext_resource type="PackedScene" uid="uid://bivy37bqys46e" path="res://scenes/hitflash_component.tscn" id="4_1b17w"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_phf5k"]
-size = Vector2(16.5, 23.5)
+[ext_resource type="PackedScene" uid="uid://bc6yggbqrf7av" path="res://components/hurtbox_component.tscn" id="5_djowk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3ipt8"]
 shader = ExtResource("1_0vkfi")
@@ -42,20 +39,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Dummy" type="Node2D" node_paths=PackedStringArray("Hitbox", "Sprite", "HitflashComponent")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ynag"]
+size = Vector2(11, 23)
+
+[node name="Dummy" type="Node2D"]
 scale = Vector2(2, 2)
-script = ExtResource("1_xgfw4")
-Hitbox = NodePath("Area2D")
-Sprite = NodePath("AnimatedSprite2D")
-HitflashComponent = NodePath("HitflashComponent")
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-0.25, 0.25)
-shape = SubResource("RectangleShape2D_phf5k")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_3ipt8")
@@ -65,3 +53,11 @@ autoplay = "Idle"
 
 [node name="HitflashComponent" parent="." node_paths=PackedStringArray("Sprite") instance=ExtResource("4_1b17w")]
 Sprite = NodePath("../AnimatedSprite2D")
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("HitflashComponent", "Sprite") instance=ExtResource("5_djowk")]
+HitflashComponent = NodePath("../HitflashComponent")
+Sprite = NodePath("../AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_6ynag")

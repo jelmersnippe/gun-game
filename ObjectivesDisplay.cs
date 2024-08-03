@@ -11,7 +11,6 @@ public partial class ObjectivesDisplay : Label {
 	}
 
 	private void ObjectiveControllerOnObjectiveCompleted(Objective objective) {
-		GD.Print("Objective completed");
 		Text = "Objectives:\n Completed!";
 	}
 

@@ -11,13 +11,11 @@ public partial class PauseController : CanvasLayer {
 
 	public override void _Input(InputEvent @event) {
 		if (@event.IsActionPressed("pause") && !_buttonHeld) {
-			GD.Print("pause pressed");
 			Toggle();
 			_buttonHeld = true;
 		}
 
 		if (@event.IsActionReleased("pause")) {
-			GD.Print("pause released");
 			_buttonHeld = false;
 		}
 	}
