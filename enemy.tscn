@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cui75dqqm06yd"]
+[gd_scene load_steps=24 format=3 uid="uid://cui75dqqm06yd"]
 
 [ext_resource type="Script" path="res://Enemy.cs" id="1_m6goa"]
 [ext_resource type="Texture2D" uid="uid://d23pluq1h7xfq" path="res://sprites/xeno-grunt/spritesheets/2x/xeno-grunt-knockback.png" id="2_0nhk3"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bbin6wfgan70e" path="res://components/movement_component.tscn" id="6_so7y4"]
 [ext_resource type="PackedScene" uid="uid://bc6yggbqrf7av" path="res://components/hurtbox_component.tscn" id="7_nfj1f"]
 [ext_resource type="PackedScene" uid="uid://bivy37bqys46e" path="res://scenes/hitflash_component.tscn" id="8_som55"]
+[ext_resource type="PackedScene" uid="uid://bu4l6fmpvb5im" path="res://components/health_component.tscn" id="9_8udxy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sesqe"]
 size = Vector2(22, 33)
@@ -110,11 +111,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qodgg"]
 size = Vector2(40, 41)
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("MovementComponent", "Sprite", "VelocityComponent")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("HealthComponent", "HurtboxComponent", "MovementComponent", "Sprite", "VelocityComponent")]
 collision_layer = 2
 collision_mask = 18
 motion_mode = 1
 script = ExtResource("1_m6goa")
+HealthComponent = NodePath("HealthComponent")
+HurtboxComponent = NodePath("HurtboxComponent")
 MovementComponent = NodePath("MovementComponent")
 Speed = 50.0
 Sprite = NodePath("AnimatedSprite2D")
@@ -149,3 +152,5 @@ shape = SubResource("RectangleShape2D_qodgg")
 
 [node name="HitflashComponent" parent="." node_paths=PackedStringArray("Sprite") instance=ExtResource("8_som55")]
 Sprite = NodePath("../AnimatedSprite2D")
+
+[node name="HealthComponent" parent="." instance=ExtResource("9_8udxy")]

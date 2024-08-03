@@ -2,7 +2,7 @@ using Godot;
 
 public partial class HurtboxComponent : Area2D {
 	[Signal]
-	public delegate void HitEventHandler(Vector2 direction);
+	public delegate void HitEventHandler(HitboxComponent hitboxComponent, Vector2 direction);
 
 	[Export] public HitflashComponent? HitflashComponent;
 	[Export] public float HurtTime = 0.2f;
@@ -18,7 +18,7 @@ public partial class HurtboxComponent : Area2D {
 			return;
 		}
 
-		EmitSignal(SignalName.Hit, GlobalPosition.DirectionTo(hitboxComponent.GlobalPosition));
+		EmitSignal(SignalName.Hit, hitboxComponent, GlobalPosition.DirectionTo(hitboxComponent.GlobalPosition));
 
 		if (Sprite != null) {
 			Sprite.Play("Hurt");
