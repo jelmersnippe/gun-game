@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public partial class Weapon : Node2D {
@@ -32,6 +33,7 @@ public partial class Weapon : Node2D {
 		}
 
 		float middleProjectileIndex = (ProjectilesPerShot - 1) / 2f;
+		List<Projectile> projectiles = new();
 		for (int i = 0; i < ProjectilesPerShot; i++) {
 			float offset = i - middleProjectileIndex;
 
@@ -53,6 +55,7 @@ public partial class Weapon : Node2D {
 			shell.Velocity = new Vector2(-direction.Normalized().X * 50, -1 * 200);
 
 			GetTree().CurrentScene.CallDeferred("add_child", shell);
+			projectiles.Add(projectile);
 		}
 
 		// Apply kickback
@@ -67,8 +70,8 @@ public partial class Weapon : Node2D {
 		soundPlayer.Finished += () => soundPlayer.QueueFree();
 
 		// Perform at the end so all game tree related stuff like reloading can still happen
-		for (int i = 0; i < ProjectilesPerShot; i++) {
-			CombatEventHandler.HandleEvent(CombatEvent.ProjectileFired);
+		foreach (Projectile projectile in projectiles) {
+			CombatEventHandler.HandleEvent(new ProjectileFiredCombatEvent(projectile));
 		}
 
 		return -direction.Normalized() * UserKickback;

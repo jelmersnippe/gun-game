@@ -17,6 +17,8 @@ public partial class Enemy : CharacterBody2D {
 
 	private void HealthComponentOnDied() {
 		// TODO: Implement effects
+		CombatEventHandler.HandleEvent(
+			new EnemyKilledCombatEvent(Target != null ? GlobalPosition.DistanceTo(Target.GlobalPosition) : 0));
 		QueueFree();
 	}
 

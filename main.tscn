@@ -40,7 +40,7 @@ zoom = Vector2(1.2, 1.2)
 Target = NodePath("../Player")
 
 [node name="ObjectiveController" parent="." instance=ExtResource("6_jxloy")]
-InitialObjectiveCount = 1
+InitialObjectiveCount = 3
 
 [node name="GunRegistry" parent="." instance=ExtResource("7_lv881")]
 

@@ -1,9 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class ObjectiveController : Node {
 	private readonly List<Objective> _activeObjectives = new();
+
+	private readonly List<Func<int, Objective>> _availableObjectives = new() {
+		requiredProgression => new ProjectilesFiredObjective(requiredProgression),
+		requiredProgression => new EnemiesKilledObjective(requiredProgression),
+		requiredProgression => new AccuracyObjective(requiredProgression)
+	};
+
 	[Export] public int InitialObjectiveCount;
 	public event Action<IReadOnlyList<Objective>>? ObjectivesUpdated;
 	public event Action<Objective>? ObjectiveCompleted;
@@ -19,8 +27,8 @@ public partial class ObjectiveController : Node {
 	public override void _Ready() {
 		SceneTreeTimer? initialObjectiveTimer = GetTree().CreateTimer(0.2f);
 		initialObjectiveTimer.Timeout += () => {
-			for (int i = 0; i < InitialObjectiveCount; i++) {
-				AddObjective(new ProjectilesFiredObjective(10));
+			for (int i = 0; i < Mathf.Clamp(InitialObjectiveCount, 0, _availableObjectives.Count); i++) {
+				AddRandomObjective();
 			}
 		};
 	}
@@ -32,6 +40,21 @@ public partial class ObjectiveController : Node {
 				ObjectivesUpdated?.Invoke(_activeObjectives.AsReadOnly());
 			}
 		}
+	}
+
+	private void AddRandomObjective() {
+		var rng = new RandomNumberGenerator();
+		int objectiveIndex = rng.RandiRange(0, _availableObjectives.Count - 1);
+		var objectiveCreation = _availableObjectives[objectiveIndex];
+
+		Objective objective = objectiveCreation(30);
+
+		if (_activeObjectives.Any(x => x.GetType() == objective.GetType())) {
+			AddRandomObjective();
+			return;
+		}
+
+		AddObjective(objective);
 	}
 
 	public void AddObjective(Objective obj) {
@@ -48,77 +71,11 @@ public partial class ObjectiveController : Node {
 		objectiveCompletedTimer.Timeout += () => RemoveObjective(obj);
 
 		SceneTreeTimer? newObjectiveTimer = GetTree().CreateTimer(2f);
-		newObjectiveTimer.Timeout += () => AddObjective(new ProjectilesFiredObjective(10));
+		newObjectiveTimer.Timeout += AddRandomObjective;
 	}
 
 	private void RemoveObjective(Objective obj) {
 		_activeObjectives.Remove(obj);
 		ObjectivesUpdated?.Invoke(_activeObjectives);
-	}
-}
-
-public abstract partial class Objective : RefCounted {
-	[Signal]
-	public delegate void CompletedEventHandler(Objective objective);
-
-	private int _currentProgression;
-
-	protected Objective(int requiredProgression) {
-		RequiredProgression = requiredProgression;
-	}
-
-	private int RequiredProgression { get; }
-	public string DisplayText => ObjectiveText(RequiredProgression) + $" ({_currentProgression}/{RequiredProgression})";
-	protected abstract string ObjectiveText(int requiredProgression);
-
-	protected abstract bool ValidateProgression(CombatEvent @event);
-	protected abstract bool ValidateFailure(CombatEvent @event);
-
-	public bool HandleEvent(CombatEvent @event) {
-		return TryProgress(@event) || TryFailure(@event);
-	}
-
-	private bool TryProgress(CombatEvent @event) {
-		if (_currentProgression >= RequiredProgression || !ValidateProgression(@event)) {
-			return false;
-		}
-
-		_currentProgression++;
-
-		if (_currentProgression >= RequiredProgression) {
-			Complete();
-		}
-
-		return true;
-	}
-
-	private void Complete() {
-		EmitSignal(SignalName.Completed, this);
-	}
-
-	private bool TryFailure(CombatEvent @event) {
-		if (!ValidateFailure(@event)) {
-			return false;
-		}
-
-		_currentProgression = 0;
-		return true;
-	}
-}
-
-public partial class ProjectilesFiredObjective : Objective {
-	public ProjectilesFiredObjective(int requiredProgression) : base(requiredProgression) {
-	}
-
-	protected override string ObjectiveText(int requiredProgression) {
-		return $"Fire {requiredProgression} projectiles";
-	}
-
-	protected override bool ValidateProgression(CombatEvent @event) {
-		return @event.Name == CombatEvent.ProjectileFired.Name;
-	}
-
-	protected override bool ValidateFailure(CombatEvent @event) {
-		return false;
 	}
 }
