@@ -4,17 +4,18 @@ public partial class Player : CharacterBody2D {
     private Pickup? _availablePickup;
 
     [Export] public Vector2 CarryingOffset = new(24, -2);
-    [Export] public GunRegistry GunRegistry;
+
+    [Export] public GunRegistry? GunRegistry;
     [Export] public Node2D Hand;
     [Export] public InputComponent InputComponent;
     [Export] public Inventory Inventory;
-    [Export] public ObjectiveController ObjectiveController;
+    [Export] public ObjectiveController? ObjectiveController;
     [Export] public Area2D PickupRadius;
 
     [Export] public float Speed = 200f;
     [Export] public AnimatedSprite2D Sprite;
-
     [Export] public VelocityComponent VelocityComponent;
+
 
     public override void _Ready() {
         InputComponent.MoveInput += movement => {
@@ -39,14 +40,16 @@ public partial class Player : CharacterBody2D {
         PickupRadius.AreaEntered += EnterPickupArea;
         PickupRadius.AreaExited += ExitPickupArea;
 
-        ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
+        if (ObjectiveController != null) {
+            ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
+        }
 
-        Weapon? startingWeapon = GunRegistry.GetNext();
+        Weapon? startingWeapon = GunRegistry?.GetNext();
         Inventory.Equip(startingWeapon);
     }
 
     private void ObjectiveControllerOnObjectiveCompleted(Objective obj) {
-        Inventory.Equip(GunRegistry.GetNext());
+        Inventory.Equip(GunRegistry?.GetNext());
     }
 
     private void EquipWeapon(Weapon weapon) {

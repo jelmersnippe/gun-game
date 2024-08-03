@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbiv6yqlvyy33"]
+
+[ext_resource type="Texture2D" uid="uid://dt85772yip1p4" path="res://sprites/crosshair.png" id="1_lvcfv"]
+[ext_resource type="Script" path="res://MouseFollow.cs" id="2_6qisw"]
+
+[node name="Crosshair" type="Sprite2D"]
+process_mode = 3
+z_index = 100
+scale = Vector2(2, 2)
+texture = ExtResource("1_lvcfv")
+script = ExtResource("2_6qisw")

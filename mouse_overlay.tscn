@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://vt8ayioamagx"]
+
+[ext_resource type="PackedScene" uid="uid://bbiv6yqlvyy33" path="res://crosshair.tscn" id="1_bc6vj"]
+
+[node name="MouseOverlay" type="CanvasLayer"]
+layer = 100
+
+[node name="Crosshair" parent="." instance=ExtResource("1_bc6vj")]
