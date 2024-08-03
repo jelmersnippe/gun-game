@@ -5,7 +5,7 @@
 [node name="Main Menu" type="CanvasLayer"]
 script = ExtResource("1_m2b13")
 
-[node name="Play" type="Button" parent="."]
+[node name="PlayClassic" type="Button" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -19,7 +19,23 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Play"
+text = "Classic Mode"
+
+[node name="PlayEndless" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -22.0
+offset_right = 22.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Endless Mode"
 
 [node name="Armory" type="Button" parent="."]
 anchors_preset = 8
@@ -27,10 +43,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -33.5
-offset_top = -15.5
-offset_right = 33.5
-offset_bottom = 15.5
+offset_left = -32.0
+offset_top = 18.0
+offset_right = 35.0
+offset_bottom = 49.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -43,10 +59,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -18.5
-offset_top = 32.5
-offset_right = 18.5
-offset_bottom = 63.5
+offset_left = -19.0
+offset_top = 61.0
+offset_right = 18.0
+offset_bottom = 92.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -68,6 +84,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "<ESC> to pause"
 
-[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="PlayClassic" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="PlayEndless" to="." method="_on_play_endless_pressed"]
 [connection signal="pressed" from="Armory" to="." method="_on_armory_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

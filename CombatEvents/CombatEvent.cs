@@ -4,7 +4,8 @@ public enum CombatEventType {
 	ProjectileFired,
 	ProjectileHit,
 	ProjectileMiss,
-	EnemyKilled
+	EnemyKilled,
+	WeaponChanged
 }
 
 public abstract class CombatEvent {
@@ -45,4 +46,8 @@ public class EnemyKilledCombatEvent : CombatEvent {
 
 	public override CombatEventType Type => CombatEventType.EnemyKilled;
 	public float Distance { get; private set; }
+}
+
+public class WeaponChangedCombatEvent : CombatEvent {
+	public override CombatEventType Type => CombatEventType.WeaponChanged;
 }

@@ -54,10 +54,6 @@ public partial class Player : CharacterBody2D {
 
 		HurtboxComponent.Hit += (component, direction) => HealthComponent.TakeDamage(component.ContactDamage);
 		HealthComponent.Died += Die;
-
-		if (GunRegistry != null) {
-			GunRegistry.Empty += () => ShowGameOver("GUN REGISTRY COMPLETED!");
-		}
 	}
 
 	private void Die() {
@@ -66,8 +62,7 @@ public partial class Player : CharacterBody2D {
 	}
 
 	private void ShowGameOver(string title) {
-		GameOverMenu.Instance.Title.Text = title;
-		GameOverMenu.Instance.Show();
+		GameOverMenu.Instance.Activate(title);
 		QueueFree();
 	}
 

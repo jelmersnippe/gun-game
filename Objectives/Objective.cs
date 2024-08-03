@@ -42,12 +42,16 @@ public abstract partial class Objective : Resource {
 		EmitSignal(SignalName.Completed, this);
 	}
 
+	public void Reset() {
+		_currentProgression = 0;
+	}
+
 	private bool TryFailure(CombatEvent @event) {
 		if (!ValidateFailure(@event)) {
 			return false;
 		}
 
-		_currentProgression = 0;
+		Reset();
 		return true;
 	}
 }

@@ -1,8 +1,20 @@
 using Godot;
 
 public partial class PauseController : CanvasLayer {
+	private static PauseController? _instance;
+
 	private bool _buttonHeld;
 	private bool _paused;
+	public static PauseController Instance => _instance!;
+
+	public override void _EnterTree() {
+		if (_instance != null) {
+			QueueFree();
+			return;
+		}
+
+		_instance = this;
+	}
 
 	public override void _Ready() {
 		ProcessMode = ProcessModeEnum.Always;
@@ -20,7 +32,7 @@ public partial class PauseController : CanvasLayer {
 		}
 	}
 
-	private void Toggle() {
+	public void Toggle() {
 		_paused = !_paused;
 
 		GetTree().Paused = _paused;

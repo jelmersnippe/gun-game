@@ -31,11 +31,22 @@ public partial class ObjectiveController : Node {
 	}
 
 	private void CombatEventHandlerOnCombatEventTriggered(CombatEvent @event) {
+		bool changed = false;
 		foreach (Objective objective in _activeObjectives) {
-			bool changed = objective.HandleEvent(@event);
-			if (changed) {
-				ObjectivesUpdated?.Invoke(_activeObjectives.AsReadOnly());
+			if (@event.Type == CombatEventType.WeaponChanged) {
+				// TODO: Does not work to fix double completions
+				objective.Reset();
+				changed = true;
+				continue;
 			}
+
+			if (objective.HandleEvent(@event)) {
+				changed = true;
+			}
+		}
+
+		if (changed) {
+			ObjectivesUpdated?.Invoke(_activeObjectives.AsReadOnly());
 		}
 	}
 
