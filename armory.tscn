@@ -9,10 +9,9 @@
 
 [node name="Main" type="Node2D"]
 
-[node name="Player" parent="." node_paths=PackedStringArray("GunRegistry", "ObjectiveController") instance=ExtResource("1_cddg1")]
+[node name="Player" parent="." instance=ExtResource("1_cddg1")]
 position = Vector2(294, 272)
-GunRegistry = NodePath("")
-ObjectiveController = NodePath("")
+DropWeapons = true
 
 [node name="Dummy" parent="." instance=ExtResource("2_q71uc")]
 position = Vector2(627, 360)

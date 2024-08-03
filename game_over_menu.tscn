@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" path="res://GameOverMenu.cs" id="1_4fknt"]
 
-[node name="GameOverMenu" type="CanvasLayer"]
+[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("Title")]
 process_mode = 3
 layer = 10
 script = ExtResource("1_4fknt")
+Title = NodePath("Label")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15

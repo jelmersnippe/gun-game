@@ -2,11 +2,15 @@ using Godot;
 using Godot.Collections;
 
 public partial class GunRegistry : Node {
+	[Signal]
+	public delegate void EmptyEventHandler();
+
 	private int _currentWeaponIndex;
 	[Export] public Array<PackedScene> WeaponScenes = new();
 
 	public Weapon? GetNext() {
 		if (_currentWeaponIndex >= WeaponScenes.Count) {
+			EmitSignal(SignalName.Empty);
 			return null;
 		}
 

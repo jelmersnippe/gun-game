@@ -5,6 +5,8 @@ public partial class Player : CharacterBody2D {
 
 	[Export] public Vector2 CarryingOffset = new(24, -2);
 
+	[Export] public bool DropWeapons;
+
 	[Export] public GunRegistry? GunRegistry;
 	[Export] public Node2D Hand;
 	[Export] public HealthComponent HealthComponent;
@@ -33,6 +35,7 @@ public partial class Player : CharacterBody2D {
 		InputComponent.AttackReleased += () => Inventory.ActiveWeapon?.StopFiring();
 		InputComponent.InteractInput += Interact;
 
+		Inventory.CreatePickupForWeapons = DropWeapons;
 		if (Inventory.ActiveWeapon != null) {
 			EquipWeapon(Inventory.ActiveWeapon);
 		}
@@ -50,11 +53,20 @@ public partial class Player : CharacterBody2D {
 		Inventory.Equip(startingWeapon);
 
 		HurtboxComponent.Hit += (component, direction) => HealthComponent.TakeDamage(component.ContactDamage);
-		HealthComponent.Died += HealthComponentOnDied;
+		HealthComponent.Died += Die;
+
+		if (GunRegistry != null) {
+			GunRegistry.Empty += () => ShowGameOver("GUN REGISTRY COMPLETED!");
+		}
 	}
 
-	private void HealthComponentOnDied() {
+	private void Die() {
 		// TODO: Spawn effects
+		ShowGameOver("GAME OVER");
+	}
+
+	private void ShowGameOver(string title) {
+		GameOverMenu.Instance.Title.Text = title;
 		GameOverMenu.Instance.Show();
 		QueueFree();
 	}

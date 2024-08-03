@@ -15,7 +15,7 @@ public partial class ObjectiveController : Node {
 		SceneTreeTimer? initialObjectiveTimer = GetTree().CreateTimer(0.2f);
 		initialObjectiveTimer.Timeout += () => {
 			for (int i = 0; i < InitialObjectiveCount; i++) {
-				AddObjective(new ProjectilesFiredObjective(30));
+				AddObjective(new ProjectilesFiredObjective(10));
 			}
 		};
 	}
@@ -43,7 +43,7 @@ public partial class ObjectiveController : Node {
 		objectiveCompletedTimer.Timeout += () => RemoveObjective(obj);
 
 		SceneTreeTimer? newObjectiveTimer = GetTree().CreateTimer(2f);
-		newObjectiveTimer.Timeout += () => AddObjective(new ProjectilesFiredObjective(30));
+		newObjectiveTimer.Timeout += () => AddObjective(new ProjectilesFiredObjective(10));
 	}
 
 	private void RemoveObjective(Objective obj) {

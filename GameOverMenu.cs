@@ -2,6 +2,7 @@ using Godot;
 
 public partial class GameOverMenu : CanvasLayer {
 	private static GameOverMenu? _instance;
+	[Export] public Label Title = null!;
 	public static GameOverMenu Instance => _instance!;
 
 	public override void _EnterTree() {
