@@ -15,6 +15,7 @@ public partial class GameOverMenu : CanvasLayer {
 	}
 
 	public void Activate(string text) {
+		Engine.TimeScale = 0;
 		GetTree().Paused = true;
 
 		Title.Text = text;
@@ -26,6 +27,7 @@ public partial class GameOverMenu : CanvasLayer {
 	}
 
 	private void _on_restart_pressed() {
+		Engine.TimeScale = 1;
 		GetTree().Paused = false;
 		GetTree().ReloadCurrentScene();
 		Hide();
@@ -33,6 +35,7 @@ public partial class GameOverMenu : CanvasLayer {
 
 
 	private void _on_main_menu_pressed() {
+		Engine.TimeScale = 1;
 		GetTree().Paused = false;
 		GetTree().ChangeSceneToFile("res://main_menu.tscn");
 		Hide();
@@ -40,6 +43,7 @@ public partial class GameOverMenu : CanvasLayer {
 
 
 	private void _on_exit_pressed() {
+		Engine.TimeScale = 1;
 		GetTree().Paused = false;
 		GetTree().Quit();
 	}

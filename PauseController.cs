@@ -4,7 +4,6 @@ public partial class PauseController : CanvasLayer {
 	private static PauseController? _instance;
 
 	private bool _buttonHeld;
-	private bool _paused;
 	public static PauseController Instance => _instance!;
 
 	public override void _EnterTree() {
@@ -33,11 +32,10 @@ public partial class PauseController : CanvasLayer {
 	}
 
 	public void Toggle() {
-		_paused = !_paused;
+		GetTree().Paused = !GetTree().Paused;
+		Engine.TimeScale = GetTree().Paused ? 0 : 1;
 
-		GetTree().Paused = _paused;
-
-		if (_paused) {
+		if (GetTree().Paused) {
 			Show();
 		}
 		else {
