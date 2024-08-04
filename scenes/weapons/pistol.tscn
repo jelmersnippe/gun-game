@@ -1,17 +1,17 @@
 [gd_scene load_steps=9 format=3 uid="uid://ckfxfkyvjyedj"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_6batt"]
-[ext_resource type="Script" path="res://Weapons/SingleFiringMode.cs" id="2_7khkj"]
+[ext_resource type="Script" path="res://Weapons/FiringModes/SingleFiringMode.cs" id="2_ta4o4"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_tkd8x"]
 [ext_resource type="AudioStream" uid="uid://c5y1ucsxl5o2n" path="res://sounds/9mm_gunshot-104571.mp3" id="3_eygii"]
+[ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_0kpkj"]
 [ext_resource type="Texture2D" uid="uid://cxp0qfatr0qyg" path="res://sprites/pistol.png" id="4_3kxqw"]
-[ext_resource type="Script" path="res://Weapons/SimpleShotPattern.cs" id="4_p5jhs"]
 
 [sub_resource type="Resource" id="Resource_60ilt"]
-script = ExtResource("2_7khkj")
+script = ExtResource("2_ta4o4")
 
 [sub_resource type="Resource" id="Resource_lh2g7"]
-script = ExtResource("4_p5jhs")
+script = ExtResource("4_0kpkj")
 Spread = 2.0
 
 [node name="Pistol" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]

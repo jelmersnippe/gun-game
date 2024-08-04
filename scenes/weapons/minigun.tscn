@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://bewtvgo8017yj"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_e0dpy"]
-[ext_resource type="Script" path="res://Weapons/SingleFiringMode.cs" id="2_4ovck"]
+[ext_resource type="Script" path="res://Weapons/FiringModes/SingleFiringMode.cs" id="2_4ovck"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_rckf3"]
 [ext_resource type="AudioStream" uid="uid://cau2vydmx1n3b" path="res://sounds/meaty-gunshot-101257.mp3" id="3_dg864"]
 [ext_resource type="Texture2D" uid="uid://drtqx5xq50aq3" path="res://sprites/minigun.png" id="3_wj18w"]
-[ext_resource type="Script" path="res://Weapons/MultiShotPattern.cs" id="4_xfj60"]
+[ext_resource type="Script" path="res://Weapons/ShotPatterns/MultiShotPattern.cs" id="4_xfj60"]
 
 [sub_resource type="Resource" id="Resource_bjv3d"]
 script = ExtResource("2_4ovck")

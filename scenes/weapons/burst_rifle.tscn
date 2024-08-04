@@ -1,19 +1,19 @@
 [gd_scene load_steps=9 format=3 uid="uid://ce2rx6ukj5c7"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_g2hki"]
-[ext_resource type="Script" path="res://Weapons/BurstFiringMode.cs" id="2_kq3wy"]
+[ext_resource type="Script" path="res://Weapons/FiringModes/BurstFiringMode.cs" id="2_ex3pm"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="3_i5uao"]
-[ext_resource type="Script" path="res://Weapons/SimpleShotPattern.cs" id="4_jbjoq"]
-[ext_resource type="AudioStream" uid="uid://c5y1ucsxl5o2n" path="res://sounds/9mm_gunshot-104571.mp3" id="5_jmatd"]
+[ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_3dls5"]
+[ext_resource type="AudioStream" uid="uid://c6uaaedupys8a" path="res://sounds/single-gunshot-54-40780.mp3" id="5_u5exq"]
 [ext_resource type="Texture2D" uid="uid://x5qlbrg7unr6" path="res://sprites/burst-rifle.png" id="6_0ec6x"]
 
 [sub_resource type="Resource" id="Resource_pwmjb"]
-script = ExtResource("2_kq3wy")
+script = ExtResource("2_ex3pm")
 ProjectileCount = 3
 TimeBetweenProjectiles = 0.05
 
 [sub_resource type="Resource" id="Resource_o3kov"]
-script = ExtResource("4_jbjoq")
+script = ExtResource("4_3dls5")
 Spread = 2.0
 
 [node name="BurstRifle" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
@@ -26,7 +26,7 @@ IsAutomatic = true
 ProjectileScene = ExtResource("3_i5uao")
 ShellEjectionPoint = NodePath("ShellEjectionPoint")
 ShotPattern = SubResource("Resource_o3kov")
-Sound = ExtResource("5_jmatd")
+Sound = ExtResource("5_u5exq")
 Sprite = NodePath("Sprite2D")
 UserKickback = 50.0
 WeaponKickback = 6.0

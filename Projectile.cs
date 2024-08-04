@@ -4,12 +4,19 @@ public partial class Projectile : Node2D {
 	private bool _impacted;
 	[Export] public HitboxComponent HitboxComponent = null!;
 	[Export] public PackedScene ImpactEffect;
+	[Export] public float LifeTime = 1f;
 	[Export] public PackedScene Shell;
 	[Export] public float Speed = 200f;
 
 	public override void _Ready() {
 		HitboxComponent.AreaEntered += SpawnImpactEffect;
 		HitboxComponent.BodyEntered += SpawnImpactEffect;
+
+		SceneTreeTimer? lifeTimeTimer = GetTree().CreateTimer(LifeTime);
+		lifeTimeTimer.Timeout += () => {
+			CombatEventHandler.HandleEvent(new ProjectileMissCombatEvent(this));
+			QueueFree();
+		};
 	}
 
 	public override void _Process(double delta) {

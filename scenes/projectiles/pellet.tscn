@@ -1,0 +1,50 @@
+[gd_scene load_steps=10 format=3 uid="uid://2t0qiinshbbg"]
+
+[ext_resource type="Script" path="res://Pellet.cs" id="1_yfaui"]
+[ext_resource type="PackedScene" uid="uid://lpt5yixny2al" path="res://scenes/projectiles/bullet_impact.tscn" id="2_f56ox"]
+[ext_resource type="PackedScene" uid="uid://cbd8kc4uoq1ya" path="res://scenes/projectiles/shell.tscn" id="3_vxdyb"]
+[ext_resource type="Texture2D" uid="uid://bwmt64tim8f5u" path="res://sprites/bullet.png" id="4_sb8gy"]
+[ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="5_ykrf4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5f0b"]
+atlas = ExtResource("4_sb8gy")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tiauu"]
+atlas = ExtResource("4_sb8gy")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c58eq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5f0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tiauu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 60.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_da7f5"]
+size = Vector2(18, 8)
+
+[node name="Pellet" type="Node2D" node_paths=PackedStringArray("HitboxComponent")]
+script = ExtResource("1_yfaui")
+HitboxComponent = NodePath("HitboxComponent")
+ImpactEffect = ExtResource("2_f56ox")
+Shell = ExtResource("3_vxdyb")
+Speed = 800.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_c58eq")
+autoplay = "default"
+frame = 1
+frame_progress = 1.0
+
+[node name="HitboxComponent" parent="." instance=ExtResource("5_ykrf4")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_da7f5")
