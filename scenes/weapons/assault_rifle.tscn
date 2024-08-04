@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_ikote"]
 [ext_resource type="Texture2D" uid="uid://4qmq2ku65ono" path="res://sprites/assault-rifle.png" id="4_xharv"]
 
-[sub_resource type="Resource" id="Resource_v04mp"]
+[sub_resource type="Resource" id="Resource_37leo"]
 script = ExtResource("2_i88mx")
 
 [sub_resource type="Resource" id="Resource_m2a1o"]
@@ -19,7 +19,7 @@ script = ExtResource("1_qrmmy")
 AttacksPerSecond = 8.0
 DistanceBetweenProjectiles = 0.0
 FirePoint = NodePath("FirePoint")
-FiringMode = SubResource("Resource_v04mp")
+FiringMode = SubResource("Resource_37leo")
 IsAutomatic = true
 ProjectileScene = ExtResource("2_ov7c4")
 ShellEjectionPoint = NodePath("ShellEjectionpoint")

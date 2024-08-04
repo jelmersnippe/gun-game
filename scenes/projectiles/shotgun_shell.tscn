@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnusx0iv0kktv"]
+
+[ext_resource type="Texture2D" uid="uid://txtkc40wgndi" path="res://sprites/shotgun-shell.png" id="1_4gti4"]
+[ext_resource type="Script" path="res://Shell.cs" id="2_8mmug"]
+
+[node name="ShotgunShell" type="Sprite2D"]
+texture = ExtResource("1_4gti4")
+script = ExtResource("2_8mmug")

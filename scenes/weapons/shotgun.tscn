@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://s43vi3sgcu7i" path="res://sounds/080902_shotgun-39753.mp3" id="5_6cb3w"]
 [ext_resource type="Texture2D" uid="uid://bmmjvx8ewgfg4" path="res://sprites/shotgun.png" id="6_rsc2l"]
 
-[sub_resource type="Resource" id="Resource_gmmml"]
+[sub_resource type="Resource" id="Resource_0nyap"]
 script = ExtResource("2_2tg5q")
 
 [sub_resource type="Resource" id="Resource_h15hq"]
@@ -20,14 +20,13 @@ script = ExtResource("1_u5v4n")
 AttacksPerSecond = 2.0
 DistanceBetweenProjectiles = 0.0
 FirePoint = NodePath("FirePoint")
-FiringMode = SubResource("Resource_gmmml")
-IsAutomatic = true
+FiringMode = SubResource("Resource_0nyap")
 ProjectileScene = ExtResource("3_fhfqt")
 ShellEjectionPoint = NodePath("ShellEjectionPoint")
 ShotPattern = SubResource("Resource_h15hq")
 Sound = ExtResource("5_6cb3w")
 Sprite = NodePath("Sprite2D")
-UserKickback = 50.0
+UserKickback = 200.0
 WeaponKickback = 6.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

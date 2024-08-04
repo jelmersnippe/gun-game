@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://c6uaaedupys8a" path="res://sounds/single-gunshot-54-40780.mp3" id="5_u5exq"]
 [ext_resource type="Texture2D" uid="uid://x5qlbrg7unr6" path="res://sprites/burst-rifle.png" id="6_0ec6x"]
 
-[sub_resource type="Resource" id="Resource_pwmjb"]
+[sub_resource type="Resource" id="Resource_g34ji"]
 script = ExtResource("2_ex3pm")
 ProjectileCount = 3
 TimeBetweenProjectiles = 0.05
@@ -21,14 +21,13 @@ script = ExtResource("1_g2hki")
 AttacksPerSecond = 2.0
 DistanceBetweenProjectiles = 0.0
 FirePoint = NodePath("FirePoint")
-FiringMode = SubResource("Resource_pwmjb")
-IsAutomatic = true
+FiringMode = SubResource("Resource_g34ji")
 ProjectileScene = ExtResource("3_i5uao")
 ShellEjectionPoint = NodePath("ShellEjectionPoint")
 ShotPattern = SubResource("Resource_o3kov")
 Sound = ExtResource("5_u5exq")
 Sprite = NodePath("Sprite2D")
-UserKickback = 50.0
+UserKickback = 80.0
 WeaponKickback = 6.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

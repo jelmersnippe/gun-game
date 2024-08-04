@@ -7,6 +7,7 @@ public partial class Projectile : Node2D {
 	[Export] public float LifeTime = 1f;
 	[Export] public PackedScene Shell;
 	[Export] public float Speed = 200f;
+	[Export] public VelocityStrategy? VelocityStrategy;
 
 	public override void _Ready() {
 		HitboxComponent.AreaEntered += SpawnImpactEffect;
@@ -17,6 +18,8 @@ public partial class Projectile : Node2D {
 			CombatEventHandler.HandleEvent(new ProjectileMissCombatEvent(this));
 			QueueFree();
 		};
+
+		VelocityStrategy?.Apply(this);
 	}
 
 	public override void _Process(double delta) {

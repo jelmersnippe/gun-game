@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_0kpkj"]
 [ext_resource type="Texture2D" uid="uid://cxp0qfatr0qyg" path="res://sprites/pistol.png" id="4_3kxqw"]
 
-[sub_resource type="Resource" id="Resource_60ilt"]
+[sub_resource type="Resource" id="Resource_0vtce"]
 script = ExtResource("2_ta4o4")
 
 [sub_resource type="Resource" id="Resource_lh2g7"]
@@ -18,7 +18,7 @@ Spread = 2.0
 script = ExtResource("1_6batt")
 DistanceBetweenProjectiles = 0.0
 FirePoint = NodePath("FirePoint")
-FiringMode = SubResource("Resource_60ilt")
+FiringMode = SubResource("Resource_0vtce")
 ProjectileScene = ExtResource("2_tkd8x")
 ShellEjectionPoint = NodePath("ShellEjectionPoint")
 ShotPattern = SubResource("Resource_lh2g7")
