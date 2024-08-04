@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 [GlobalClass]
 public partial class SimpleShotPattern : ShotPattern {
 	[Export] public float Spread;
 
-	public override List<Projectile> CreateProjectiles(Weapon weapon) {
-		var projectiles = new List<Projectile>();
+	public override Array<Projectile> CreateProjectiles(Weapon weapon) {
+		var projectiles = new Array<Projectile>();
 
 		var projectile = weapon.ProjectileScene.Instantiate<Projectile>();
 		projectile.Rotation = weapon.GlobalRotation;

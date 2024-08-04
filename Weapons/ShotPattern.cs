@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 [GlobalClass]
 public abstract partial class ShotPattern : Resource {
-	public abstract List<Projectile> CreateProjectiles(Weapon weapon);
+	public abstract Array<Projectile> CreateProjectiles(Weapon weapon);
 }

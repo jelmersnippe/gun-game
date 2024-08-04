@@ -25,6 +25,15 @@ public partial class Weapon : Node2D {
 
 	private float ReloadTime => 1f / AttacksPerSecond;
 
+	public override void _Ready() {
+		FiringMode.Fired += projectiles => {
+			foreach (Projectile projectile in projectiles) {
+				GetTree().CurrentScene.CallDeferred("add_child", projectile);
+				CombatEventHandler.HandleEvent(new ProjectileFiredCombatEvent(projectile));
+			}
+		};
+	}
+
 	public Vector2 Fire(Vector2 direction) {
 		if (_isReloading || _waitingForTriggerRelease) {
 			return Vector2.Zero;
@@ -34,27 +43,12 @@ public partial class Weapon : Node2D {
 			_waitingForTriggerRelease = true;
 		}
 
-		var projectiles = FiringMode.Fire(this);
-		
-		foreach (Projectile projectile in projectiles) {
-			GetTree().CurrentScene.CallDeferred("add_child", projectile);
-		}
+		FiringMode.Fire(this);
 
 		// Apply kickback
 		Position = Vector2.Zero - direction * WeaponKickback;
 
 		Reload();
-
-		var soundPlayer = new AudioStreamPlayer2D();
-		GetParent().AddChild(soundPlayer);
-		soundPlayer.Stream = Sound;
-		soundPlayer.Play();
-		soundPlayer.Finished += () => soundPlayer.QueueFree();
-
-		// Perform at the end so all game tree related stuff like reloading can still happen
-		foreach (Projectile projectile in projectiles) {
-			CombatEventHandler.HandleEvent(new ProjectileFiredCombatEvent(projectile));
-		}
 
 		return -direction.Normalized() * UserKickback;
 	}

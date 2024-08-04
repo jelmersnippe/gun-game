@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 [GlobalClass]
 public partial class MultiShotPattern : ShotPattern {
@@ -8,8 +8,8 @@ public partial class MultiShotPattern : ShotPattern {
 
 	[Export] public float Spread;
 
-	public override List<Projectile> CreateProjectiles(Weapon weapon) {
-		var projectiles = new List<Projectile>();
+	public override Array<Projectile> CreateProjectiles(Weapon weapon) {
+		var projectiles = new Array<Projectile>();
 
 		float middleProjectileIndex = (ProjectileCount - 1) / 2f;
 

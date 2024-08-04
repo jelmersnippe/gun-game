@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://5bton5klmkam"]
+[gd_scene load_steps=8 format=3 uid="uid://5bton5klmkam"]
 
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="1_cddg1"]
 [ext_resource type="PackedScene" uid="uid://bd5wqt2ikwe04" path="res://scenes/dummy.tscn" id="2_q71uc"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b3gorf64u6dbd" path="res://scenes/weapons/assault_rifle.tscn" id="4_r3bbl"]
 [ext_resource type="PackedScene" uid="uid://ckfxfkyvjyedj" path="res://scenes/weapons/pistol.tscn" id="5_iicmh"]
 [ext_resource type="PackedScene" uid="uid://bewtvgo8017yj" path="res://scenes/weapons/minigun.tscn" id="6_elvyh"]
+[ext_resource type="PackedScene" uid="uid://ce2rx6ukj5c7" path="res://scenes/weapons/burst_rifle.tscn" id="7_wenom"]
 
 [node name="Main" type="Node2D"]
 
@@ -27,3 +28,7 @@ WeaponScene = ExtResource("5_iicmh")
 [node name="MinigunPickup" parent="." instance=ExtResource("3_ddmpt")]
 position = Vector2(676, 199)
 WeaponScene = ExtResource("6_elvyh")
+
+[node name="BurstRiflePickup" parent="." instance=ExtResource("3_ddmpt")]
+position = Vector2(338, 196)
+WeaponScene = ExtResource("7_wenom")
