@@ -5,19 +5,16 @@ public partial class Weapon : Node2D {
 	private bool _waitingForTriggerRelease;
 
 	[Export] public float AttacksPerSecond = 6;
-	[Export] public float DistanceBetweenProjectiles = 10f;
 	[Export] public Node2D FirePoint;
 
 	[Export] public FiringMode FiringMode;
 	[Export] public bool IsAutomatic;
 	[Export] public PackedScene ProjectileScene;
 
-	[Export] public int ProjectilesPerShot = 1;
 	[Export] public Node2D ShellEjectionPoint;
 	[Export] public ShotPattern ShotPattern;
 
 	[Export] public AudioStream Sound;
-	[Export] public float Spread = 5f;
 	[Export] public Sprite2D Sprite;
 
 	[Export] public float UserKickback = 5f;

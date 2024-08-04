@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1647f1hcrofx"]
+
+[ext_resource type="Script" path="res://Projectile.cs" id="1_ovhp7"]
+[ext_resource type="PackedScene" uid="uid://lpt5yixny2al" path="res://scenes/projectiles/bullet_impact.tscn" id="2_ix32s"]
+[ext_resource type="Script" path="res://Projectiles/VelocityStrategy/RocketVelocityStrategy.cs" id="3_h18pi"]
+[ext_resource type="Texture2D" uid="uid://d3e5b88q4bw13" path="res://sprites/rocket.png" id="4_jctm7"]
+[ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="6_4m0xw"]
+
+[sub_resource type="Resource" id="Resource_3plt3"]
+script = ExtResource("3_h18pi")
+TimeToMaxSpeed = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8m0v"]
+atlas = ExtResource("4_jctm7")
+region = Rect2(0, 0, 21, 7)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c58eq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8m0v")
+}],
+"loop": false,
+"name": &"default",
+"speed": 60.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_da7f5"]
+size = Vector2(22, 8)
+
+[node name="Rocket" type="Node2D" node_paths=PackedStringArray("HitboxComponent")]
+scale = Vector2(2, 2)
+script = ExtResource("1_ovhp7")
+HitboxComponent = NodePath("HitboxComponent")
+ImpactEffect = ExtResource("2_ix32s")
+LifeTime = 100.0
+Speed = 800.0
+VelocityStrategy = SubResource("Resource_3plt3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_c58eq")
+autoplay = "default"
+frame_progress = 1.0
+
+[node name="HitboxComponent" parent="." instance=ExtResource("6_4m0xw")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_da7f5")

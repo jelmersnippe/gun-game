@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://bbspe1fr663hu"]
+
+[ext_resource type="Script" path="res://Weapon.cs" id="1_m1j5g"]
+[ext_resource type="Script" path="res://Weapons/FiringModes/SingleFiringMode.cs" id="2_3dfu1"]
+[ext_resource type="PackedScene" uid="uid://d1647f1hcrofx" path="res://scenes/projectiles/rocket.tscn" id="3_l8uwp"]
+[ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_dv0xu"]
+[ext_resource type="AudioStream" uid="uid://bpymvgpvmuhle" path="res://sounds/missile-blast-2-95177.mp3" id="5_klkdf"]
+[ext_resource type="Texture2D" uid="uid://t2ts664gscbu" path="res://sprites/rocket-launcher.png" id="6_53c24"]
+
+[sub_resource type="Resource" id="Resource_0nyap"]
+script = ExtResource("2_3dfu1")
+
+[sub_resource type="Resource" id="Resource_gmr6v"]
+script = ExtResource("4_dv0xu")
+Spread = 0.0
+
+[node name="RocketLauncher" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
+script = ExtResource("1_m1j5g")
+AttacksPerSecond = 2.0
+FirePoint = NodePath("FirePoint")
+FiringMode = SubResource("Resource_0nyap")
+ProjectileScene = ExtResource("3_l8uwp")
+ShellEjectionPoint = NodePath("ShellEjectionPoint")
+ShotPattern = SubResource("Resource_gmr6v")
+Sound = ExtResource("5_klkdf")
+Sprite = NodePath("Sprite2D")
+UserKickback = 200.0
+WeaponKickback = 6.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("6_53c24")
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(39, -2)
+
+[node name="ShellEjectionPoint" type="Node2D" parent="."]
+position = Vector2(-17, -1)
