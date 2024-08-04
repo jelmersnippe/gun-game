@@ -1,20 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckfxfkyvjyedj"]
+[gd_scene load_steps=9 format=3 uid="uid://ckfxfkyvjyedj"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_6batt"]
+[ext_resource type="Script" path="res://Weapons/SingleFiringMode.cs" id="2_7khkj"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_tkd8x"]
 [ext_resource type="AudioStream" uid="uid://c5y1ucsxl5o2n" path="res://sounds/9mm_gunshot-104571.mp3" id="3_eygii"]
 [ext_resource type="Texture2D" uid="uid://cxp0qfatr0qyg" path="res://sprites/pistol.png" id="4_3kxqw"]
+[ext_resource type="Script" path="res://Weapons/SimpleShotPattern.cs" id="4_p5jhs"]
 
-[node name="Pistol" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint", "ShellEjectionPoint")]
-script = ExtResource("1_6batt")
-Sprite = NodePath("Sprite2D")
-ProjectileScene = ExtResource("2_tkd8x")
-FirePoint = NodePath("FirePoint")
-ShellEjectionPoint = NodePath("ShellEjectionPoint")
-UserKickback = 120.0
+[sub_resource type="Resource" id="Resource_60ilt"]
+script = ExtResource("2_7khkj")
+
+[sub_resource type="Resource" id="Resource_lh2g7"]
+script = ExtResource("4_p5jhs")
 Spread = 2.0
+
+[node name="Pistol" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
+script = ExtResource("1_6batt")
 DistanceBetweenProjectiles = 0.0
+FirePoint = NodePath("FirePoint")
+FiringMode = SubResource("Resource_60ilt")
+ProjectileScene = ExtResource("2_tkd8x")
+ShellEjectionPoint = NodePath("ShellEjectionPoint")
+ShotPattern = SubResource("Resource_lh2g7")
 Sound = ExtResource("3_eygii")
+Spread = 2.0
+Sprite = NodePath("Sprite2D")
+UserKickback = 120.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Godot;
 
 public partial class Weapon : Node2D {
@@ -8,11 +7,14 @@ public partial class Weapon : Node2D {
 	[Export] public float AttacksPerSecond = 6;
 	[Export] public float DistanceBetweenProjectiles = 10f;
 	[Export] public Node2D FirePoint;
+
+	[Export] public FiringMode FiringMode;
 	[Export] public bool IsAutomatic;
 	[Export] public PackedScene ProjectileScene;
 
 	[Export] public int ProjectilesPerShot = 1;
 	[Export] public Node2D ShellEjectionPoint;
+	[Export] public ShotPattern ShotPattern;
 
 	[Export] public AudioStream Sound;
 	[Export] public float Spread = 5f;
@@ -32,30 +34,10 @@ public partial class Weapon : Node2D {
 			_waitingForTriggerRelease = true;
 		}
 
-		float middleProjectileIndex = (ProjectilesPerShot - 1) / 2f;
-		List<Projectile> projectiles = new();
-		for (int i = 0; i < ProjectilesPerShot; i++) {
-			float offset = i - middleProjectileIndex;
-
-			var projectile = ProjectileScene.Instantiate<Projectile>();
-			projectile.GlobalPosition = FirePoint.GlobalPosition;
-			projectile.Rotation = direction.Angle();
-
-			projectile.RotationDegrees += offset * DistanceBetweenProjectiles;
-
-			// Apply spread
-			var rng = new RandomNumberGenerator();
-			projectile.RotationDegrees += rng.RandfRange(-Spread, Spread);
-
+		var projectiles = FiringMode.Fire(this);
+		
+		foreach (Projectile projectile in projectiles) {
 			GetTree().CurrentScene.CallDeferred("add_child", projectile);
-
-			var shell = projectile.Shell.Instantiate<Shell>();
-			shell.GlobalPosition = ShellEjectionPoint.GlobalPosition;
-			shell.Rotation = direction.Angle();
-			shell.Velocity = new Vector2(-direction.Normalized().X * 50, -1 * 200);
-
-			GetTree().CurrentScene.CallDeferred("add_child", shell);
-			projectiles.Add(projectile);
 		}
 
 		// Apply kickback

@@ -1,21 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://bewtvgo8017yj"]
+[gd_scene load_steps=9 format=3 uid="uid://bewtvgo8017yj"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_e0dpy"]
+[ext_resource type="Script" path="res://Weapons/SingleFiringMode.cs" id="2_4ovck"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_rckf3"]
 [ext_resource type="AudioStream" uid="uid://cau2vydmx1n3b" path="res://sounds/meaty-gunshot-101257.mp3" id="3_dg864"]
 [ext_resource type="Texture2D" uid="uid://drtqx5xq50aq3" path="res://sprites/minigun.png" id="3_wj18w"]
+[ext_resource type="Script" path="res://Weapons/MultiShotPattern.cs" id="4_xfj60"]
 
-[node name="Minigun" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint", "ShellEjectionPoint")]
+[sub_resource type="Resource" id="Resource_bjv3d"]
+script = ExtResource("2_4ovck")
+
+[sub_resource type="Resource" id="Resource_lraes"]
+script = ExtResource("4_xfj60")
+DistanceBetweenProjectiles = 10.0
+ProjectileCount = 3
+Spread = 5.0
+
+[node name="Minigun" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
 script = ExtResource("1_e0dpy")
-Sprite = NodePath("Sprite2D")
-ProjectileScene = ExtResource("2_rckf3")
-FirePoint = NodePath("FirePoint")
-ShellEjectionPoint = NodePath("ShellEjectionPoint")
 AttacksPerSecond = 16.0
+FirePoint = NodePath("FirePoint")
+FiringMode = SubResource("Resource_bjv3d")
 IsAutomatic = true
-UserKickback = 100.0
+ProjectileScene = ExtResource("2_rckf3")
 ProjectilesPerShot = 3
+ShellEjectionPoint = NodePath("ShellEjectionPoint")
+ShotPattern = SubResource("Resource_lraes")
 Sound = ExtResource("3_dg864")
+Sprite = NodePath("Sprite2D")
+UserKickback = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)

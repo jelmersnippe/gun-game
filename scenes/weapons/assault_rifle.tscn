@@ -1,22 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3gorf64u6dbd"]
+[gd_scene load_steps=9 format=3 uid="uid://b3gorf64u6dbd"]
 
 [ext_resource type="Script" path="res://Weapon.cs" id="1_qrmmy"]
+[ext_resource type="Script" path="res://Weapons/SingleFiringMode.cs" id="2_0gj6s"]
 [ext_resource type="PackedScene" uid="uid://byuck8vo52qri" path="res://scenes/projectiles/bullet.tscn" id="2_ov7c4"]
 [ext_resource type="AudioStream" uid="uid://i72n362dar2y" path="res://sounds/076415_light-machine-gun-m249-39827.mp3" id="3_ydsds"]
+[ext_resource type="Script" path="res://Weapons/SimpleShotPattern.cs" id="4_81lr7"]
 [ext_resource type="Texture2D" uid="uid://4qmq2ku65ono" path="res://sprites/assault-rifle.png" id="4_xharv"]
 
-[node name="AssaultRifle" type="Node2D" node_paths=PackedStringArray("Sprite", "FirePoint", "ShellEjectionPoint")]
-script = ExtResource("1_qrmmy")
-Sprite = NodePath("Sprite2D")
-ProjectileScene = ExtResource("2_ov7c4")
-FirePoint = NodePath("FirePoint")
-ShellEjectionPoint = NodePath("ShellEjectionpoint")
-AttacksPerSecond = 8.0
-IsAutomatic = true
-UserKickback = 80.0
+[sub_resource type="Resource" id="Resource_v04mp"]
+script = ExtResource("2_0gj6s")
+
+[sub_resource type="Resource" id="Resource_m2a1o"]
+script = ExtResource("4_81lr7")
 Spread = 4.0
+
+[node name="AssaultRifle" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
+script = ExtResource("1_qrmmy")
+AttacksPerSecond = 8.0
 DistanceBetweenProjectiles = 0.0
+FirePoint = NodePath("FirePoint")
+FiringMode = SubResource("Resource_v04mp")
+IsAutomatic = true
+ProjectileScene = ExtResource("2_ov7c4")
+ShellEjectionPoint = NodePath("ShellEjectionpoint")
+ShotPattern = SubResource("Resource_m2a1o")
 Sound = ExtResource("3_ydsds")
+Spread = 4.0
+Sprite = NodePath("Sprite2D")
+UserKickback = 80.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
