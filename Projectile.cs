@@ -1,12 +1,12 @@
 using Godot;
 
-public partial class Projectile : Node2D {
+public partial class Projectile : StaticBody2D {
 	private bool _impacted;
 	[Export] public HitboxComponent HitboxComponent = null!;
-	[Export] public ImpactStrategy? HurtboxImpactStrategy;
+	[Export] public ImpactStrategy HurtboxImpactStrategy;
 	[Export] public PackedScene ImpactEffect;
 	[Export] public float LifeTime = 1f;
-	[Export] public ImpactStrategy? OtherImpactStrategy;
+	[Export] public ImpactStrategy OtherImpactStrategy;
 	[Export] public PackedScene Shell;
 	[Export] public float Speed = 200f;
 
@@ -26,6 +26,18 @@ public partial class Projectile : Node2D {
 	}
 
 	public override void _Process(double delta) {
+		KinematicCollision2D? collision = MoveAndCollide(Transform.X * Speed * (float)delta, true);
+
+		if (collision != null) {
+			OtherImpactStrategy.Apply(this, collision);
+			GodotObject? collider = collision.GetCollider();
+			if (collider is Node2D node) {
+				// TODO: Performing impact strategy before movement means things happen away from the impact (slightly away from wall)
+				// which is fine for bouncing but looks bad for the impact effect
+				HandleImpact(node);
+			}
+		}
+
 		Position += Transform.X * Speed * (float)delta;
 	}
 
@@ -51,10 +63,7 @@ public partial class Projectile : Node2D {
 		}
 
 		if (collision is HurtboxComponent) {
-			HurtboxImpactStrategy?.Apply(this, collision);
-		}
-		else {
-			OtherImpactStrategy?.Apply(this, collision);
+			HurtboxImpactStrategy.Apply(this, null);
 		}
 	}
 }

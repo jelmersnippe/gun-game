@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d1647f1hcrofx"]
+[gd_scene load_steps=12 format=3 uid="uid://d1647f1hcrofx"]
 
 [ext_resource type="Script" path="res://Projectile.cs" id="1_ovhp7"]
 [ext_resource type="PackedScene" uid="uid://bnjiwbb8qhds2" path="res://scenes/projectiles/explosion.tscn" id="2_liy15"]
@@ -18,10 +18,14 @@ script = ExtResource("3_h18pi")
 TimeToMaxSpeed = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_up11m"]
-size = Vector2(22, 8)
+size = Vector2(44, 16)
 
-[node name="Rocket" type="Node2D" node_paths=PackedStringArray("HitboxComponent")]
-scale = Vector2(2, 2)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kau1d"]
+size = Vector2(44, 16)
+
+[node name="Rocket" type="StaticBody2D" node_paths=PackedStringArray("HitboxComponent")]
+collision_layer = 4
+collision_mask = 16
 script = ExtResource("1_ovhp7")
 HitboxComponent = NodePath("HitboxComponent")
 HurtboxImpactStrategy = SubResource("Resource_2vlmp")
@@ -32,9 +36,13 @@ Speed = 800.0
 VelocityStrategy = SubResource("Resource_3plt3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
 texture = ExtResource("4_jctm7")
 
 [node name="HitboxComponent" parent="." instance=ExtResource("6_4m0xw")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("RectangleShape2D_up11m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kau1d")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://2t0qiinshbbg"]
+[gd_scene load_steps=17 format=3 uid="uid://2t0qiinshbbg"]
 
 [ext_resource type="Script" path="res://Projectile.cs" id="1_s5s0u"]
 [ext_resource type="PackedScene" uid="uid://lpt5yixny2al" path="res://scenes/projectiles/bullet_impact.tscn" id="2_f56ox"]
@@ -43,7 +43,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_da7f5"]
 size = Vector2(18, 8)
 
-[node name="Pellet" type="Node2D" node_paths=PackedStringArray("HitboxComponent")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ggyn"]
+size = Vector2(18, 8)
+
+[node name="Pellet" type="StaticBody2D" node_paths=PackedStringArray("HitboxComponent")]
+collision_layer = 4
+collision_mask = 16
 script = ExtResource("1_s5s0u")
 HitboxComponent = NodePath("HitboxComponent")
 HurtboxImpactStrategy = SubResource("Resource_784l3")
@@ -63,3 +68,6 @@ frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("RectangleShape2D_da7f5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8ggyn")

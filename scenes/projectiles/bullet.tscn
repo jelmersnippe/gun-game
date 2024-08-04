@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://byuck8vo52qri"]
+[gd_scene load_steps=11 format=3 uid="uid://byuck8vo52qri"]
 
 [ext_resource type="Script" path="res://Projectile.cs" id="1_xhkia"]
 [ext_resource type="Script" path="res://Projectiles/ImpactStrategy/DestroyImpactStrategy.cs" id="2_weej3"]
@@ -16,7 +16,12 @@ script = ExtResource("2_weej3")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_da7f5"]
 size = Vector2(18, 8)
 
-[node name="Bullet" type="Node2D" node_paths=PackedStringArray("HitboxComponent")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ixif"]
+size = Vector2(18, 8)
+
+[node name="Bullet" type="StaticBody2D" node_paths=PackedStringArray("HitboxComponent")]
+collision_layer = 4
+collision_mask = 16
 script = ExtResource("1_xhkia")
 HitboxComponent = NodePath("HitboxComponent")
 HurtboxImpactStrategy = SubResource("Resource_c83o0")
@@ -35,3 +40,6 @@ frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("RectangleShape2D_da7f5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6ixif")
