@@ -16,7 +16,7 @@ Spread = 0.0
 
 [node name="RocketLauncher" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
 script = ExtResource("1_m1j5g")
-AttacksPerSecond = 2.0
+AttacksPerSecond = 0.5
 FirePoint = NodePath("FirePoint")
 FiringMode = SubResource("Resource_0nyap")
 ProjectileScene = ExtResource("3_l8uwp")

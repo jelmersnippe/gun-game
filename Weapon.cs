@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 public partial class Weapon : Node2D {
 	private bool _isReloading;
@@ -23,12 +24,18 @@ public partial class Weapon : Node2D {
 	private float ReloadTime => 1f / AttacksPerSecond;
 
 	public override void _Ready() {
-		FiringMode.Fired += projectiles => {
-			foreach (Projectile projectile in projectiles) {
-				GetTree().CurrentScene.CallDeferred("add_child", projectile);
-				CombatEventHandler.HandleEvent(new ProjectileFiredCombatEvent(projectile));
-			}
-		};
+		FiringMode.Fired += FiringModeOnFired;
+	}
+
+	private void FiringModeOnFired(Array<Projectile> projectiles) {
+		foreach (Projectile projectile in projectiles) {
+			GetTree().CurrentScene.CallDeferred("add_child", projectile);
+			CombatEventHandler.HandleEvent(new ProjectileFiredCombatEvent(projectile));
+		}
+	}
+
+	public override void _ExitTree() {
+		FiringMode.Fired -= FiringModeOnFired;
 	}
 
 	public Vector2 Fire(Vector2 direction) {

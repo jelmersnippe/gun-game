@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bkult4ub3c558"]
+[gd_scene load_steps=13 format=3 uid="uid://bkult4ub3c558"]
 
 [ext_resource type="Texture2D" uid="uid://jxetnlp7tsun" path="res://sprites/tileset.png" id="1_mqtqn"]
 [ext_resource type="PackedScene" uid="uid://by2ms8wxqqshl" path="res://scenes/player.tscn" id="2_3ju4v"]
@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://t4q1d7f2h5d1" path="res://Objectives/enemies_killed_objective.tres" id="6_eygyi"]
 [ext_resource type="PackedScene" uid="uid://cwhoqdeuwabns" path="res://components/gun_registry.tscn" id="7_2mvlx"]
 [ext_resource type="PackedScene" uid="uid://c3gt3rm2owjqg" path="res://components/objective_display.tscn" id="8_0cvte"]
+[ext_resource type="PackedScene" uid="uid://bbspe1fr663hu" path="res://scenes/weapons/rocket_launcher.tscn" id="8_0j0x5"]
 [ext_resource type="Script" path="res://Spawner.cs" id="9_oiw1c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_msxsp"]
@@ -43,10 +44,10 @@ Target = NodePath("../Player")
 
 [node name="ObjectiveController" parent="." instance=ExtResource("4_rfs3j")]
 _availableObjectives = [ExtResource("5_aeqk4"), ExtResource("6_eygyi")]
-InitialObjectiveCount = 3
 
 [node name="GunRegistry" parent="." instance=ExtResource("7_2mvlx")]
 RandomMode = true
+WeaponScenes = [ExtResource("8_0j0x5")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

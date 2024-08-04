@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://bnjiwbb8qhds2"]
+
+[ext_resource type="Texture2D" uid="uid://t7khrvwgs08k" path="res://sprites/Explosion_2.png" id="1_uo7v0"]
+[ext_resource type="Script" path="res://Explosion.cs" id="1_uptq2"]
+[ext_resource type="AudioStream" uid="uid://d3w51ltovlggu" path="res://sounds/medium-explosion-40472.mp3" id="2_0jt4g"]
+[ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="3_oasii"]
+
+[sub_resource type="Animation" id="Animation_hnf68"]
+resource_name = "default"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 11]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_posef"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ere3r"]
+_data = {
+"RESET": SubResource("Animation_posef"),
+"default": SubResource("Animation_hnf68")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tv4cl"]
+radius = 50.0
+
+[node name="Explosion" type="Node2D" node_paths=PackedStringArray("AudioStreamPlayer2D")]
+scale = Vector2(2, 2)
+script = ExtResource("1_uptq2")
+AudioStreamPlayer2D = NodePath("AudioStreamPlayer2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_uo7v0")
+hframes = 12
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ere3r")
+}
+autoplay = "default"
+
+[node name="HitboxComponent" parent="." instance=ExtResource("3_oasii")]
+collision_mask = 19
+ContactDamage = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_tv4cl")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_0jt4g")
+autoplay = true

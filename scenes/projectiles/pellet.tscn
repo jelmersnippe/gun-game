@@ -10,26 +10,26 @@
 [sub_resource type="Resource" id="Resource_raxvc"]
 script = ExtResource("3_464sw")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y5f0b"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5e7n"]
 atlas = ExtResource("4_sb8gy")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tiauu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hktdj"]
 atlas = ExtResource("4_sb8gy")
 region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_c58eq"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_1mqel"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y5f0b")
+"texture": SubResource("AtlasTexture_c5e7n")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tiauu")
+"texture": SubResource("AtlasTexture_hktdj")
 }],
 "loop": false,
 "name": &"default",
-"speed": 60.0
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_da7f5"]
@@ -44,7 +44,7 @@ Speed = 800.0
 VelocityStrategy = SubResource("Resource_raxvc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_c58eq")
+sprite_frames = SubResource("SpriteFrames_1mqel")
 autoplay = "default"
 frame = 1
 frame_progress = 1.0

@@ -32,7 +32,7 @@ public partial class Projectile : Node2D {
 		}
 
 		_impacted = true;
-		var impactEffect = ImpactEffect.Instantiate<ImpactEffect>();
+		var impactEffect = ImpactEffect.Instantiate<Node2D>();
 		impactEffect.RotationDegrees = RotationDegrees;
 		impactEffect.GlobalPosition = GlobalPosition;
 

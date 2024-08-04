@@ -19,7 +19,6 @@ Spread = 2.0
 [node name="BurstRifle" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
 script = ExtResource("1_g2hki")
 AttacksPerSecond = 2.0
-DistanceBetweenProjectiles = 0.0
 FirePoint = NodePath("FirePoint")
 FiringMode = SubResource("Resource_g34ji")
 ProjectileScene = ExtResource("3_i5uao")
