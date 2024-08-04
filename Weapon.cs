@@ -23,7 +23,7 @@ public partial class Weapon : Node2D {
 
 	private float ReloadTime => 1f / AttacksPerSecond;
 
-	public override void _Ready() {
+	public override void _EnterTree() {
 		FiringMode.Fired += FiringModeOnFired;
 	}
 

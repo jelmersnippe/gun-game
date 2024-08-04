@@ -1,11 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://2t0qiinshbbg"]
+[gd_scene load_steps=16 format=3 uid="uid://2t0qiinshbbg"]
 
 [ext_resource type="Script" path="res://Projectile.cs" id="1_s5s0u"]
 [ext_resource type="PackedScene" uid="uid://lpt5yixny2al" path="res://scenes/projectiles/bullet_impact.tscn" id="2_f56ox"]
+[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/DestroyImpactStrategy.cs" id="2_xwrwn"]
 [ext_resource type="Script" path="res://Projectiles/VelocityStrategy/PelletVelocityStrategy.cs" id="3_464sw"]
 [ext_resource type="PackedScene" uid="uid://cnusx0iv0kktv" path="res://scenes/projectiles/shotgun_shell.tscn" id="3_tc7vv"]
+[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/BounceImpactStrategy.cs" id="4_ml0ij"]
 [ext_resource type="Texture2D" uid="uid://bwmt64tim8f5u" path="res://sprites/bullet.png" id="4_sb8gy"]
 [ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="5_ykrf4"]
+
+[sub_resource type="Resource" id="Resource_784l3"]
+script = ExtResource("2_xwrwn")
+
+[sub_resource type="Resource" id="Resource_lho7b"]
+script = ExtResource("4_ml0ij")
 
 [sub_resource type="Resource" id="Resource_raxvc"]
 script = ExtResource("3_464sw")
@@ -38,7 +46,9 @@ size = Vector2(18, 8)
 [node name="Pellet" type="Node2D" node_paths=PackedStringArray("HitboxComponent")]
 script = ExtResource("1_s5s0u")
 HitboxComponent = NodePath("HitboxComponent")
+HurtboxImpactStrategy = SubResource("Resource_784l3")
 ImpactEffect = ExtResource("2_f56ox")
+OtherImpactStrategy = SubResource("Resource_lho7b")
 Shell = ExtResource("3_tc7vv")
 Speed = 800.0
 VelocityStrategy = SubResource("Resource_raxvc")
