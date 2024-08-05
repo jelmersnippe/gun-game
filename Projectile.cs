@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 public partial class Projectile : StaticBody2D {
@@ -29,11 +30,20 @@ public partial class Projectile : StaticBody2D {
 		KinematicCollision2D? collision = MoveAndCollide(Transform.X * Speed * (float)delta, true);
 
 		if (collision != null) {
-			if (OtherImpactStrategy.TriggerImpactEffect) {
+			ImpactStrategy impactStrategyToUse = OtherImpactStrategy;
+			if (collision.GetCollider() is Node2D node) {
+				HurtboxComponent? hurtbox = node.GetChildren().OfType<HurtboxComponent>().FirstOrDefault();
+				if (hurtbox != null) {
+					impactStrategyToUse = HurtboxImpactStrategy;
+					hurtbox.HandleCollision(HitboxComponent);
+				}
+			}
+
+			if (impactStrategyToUse.TriggerImpactEffect) {
 				ShowImpactEffect(GlobalPosition + Transform.X * Speed * (float)delta);
 			}
 
-			OtherImpactStrategy.Apply(this, collision);
+			impactStrategyToUse.Apply(this, collision);
 		}
 
 		Position += Transform.X * Speed * (float)delta;

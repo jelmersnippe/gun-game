@@ -1,15 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://ch87jscyqapu2"]
+[gd_scene load_steps=11 format=3 uid="uid://ch87jscyqapu2"]
 
 [ext_resource type="Script" path="res://Projectile.cs" id="1_tckgn"]
-[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/DestroyImpactStrategy.cs" id="2_djyuj"]
 [ext_resource type="Script" path="res://Projectiles/ImpactStrategy/BounceImpactStrategy.cs" id="2_dt1a1"]
 [ext_resource type="PackedScene" uid="uid://lpt5yixny2al" path="res://scenes/projectiles/bullet_impact.tscn" id="3_th431"]
 [ext_resource type="PackedScene" uid="uid://cbd8kc4uoq1ya" path="res://scenes/projectiles/bullet_casing.tscn" id="4_m4p4q"]
 [ext_resource type="SpriteFrames" uid="uid://bdefy6w6imyx2" path="res://scenes/projectiles/bullet_spriteframes.tres" id="5_jfj3y"]
 [ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="6_mynpt"]
 
-[sub_resource type="Resource" id="Resource_lvn30"]
-script = ExtResource("2_djyuj")
+[sub_resource type="Resource" id="Resource_boxtx"]
+script = ExtResource("2_dt1a1")
 TriggerImpactEffect = true
 
 [sub_resource type="Resource" id="Resource_7psah"]
@@ -27,7 +26,7 @@ collision_layer = 4
 collision_mask = 18
 script = ExtResource("1_tckgn")
 HitboxComponent = NodePath("HitboxComponent")
-HurtboxImpactStrategy = SubResource("Resource_lvn30")
+HurtboxImpactStrategy = SubResource("Resource_boxtx")
 ImpactEffect = ExtResource("3_th431")
 OtherImpactStrategy = SubResource("Resource_7psah")
 Shell = ExtResource("4_m4p4q")

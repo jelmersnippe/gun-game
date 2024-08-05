@@ -28,7 +28,7 @@ size = Vector2(8, 8)
 
 [node name="Grenade" type="StaticBody2D" node_paths=PackedStringArray("HitboxComponent")]
 collision_layer = 4
-collision_mask = 16
+collision_mask = 18
 script = ExtResource("1_8h8wo")
 HitboxComponent = NodePath("HitboxComponent")
 HurtboxImpactStrategy = SubResource("Resource_784l3")

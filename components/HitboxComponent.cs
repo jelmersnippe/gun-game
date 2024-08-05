@@ -15,4 +15,9 @@ public partial class HitboxComponent : Area2D {
 	private void HandleCollision(Node2D node) {
 		EmitSignal(SignalName.Hit, node);
 	}
+
+	public bool CanDamage(HurtboxComponent hurtbox) {
+		// TODO: Implement logic to track already damaged entities
+		return true;
+	}
 }

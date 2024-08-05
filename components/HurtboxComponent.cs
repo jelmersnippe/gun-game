@@ -13,8 +13,8 @@ public partial class HurtboxComponent : Area2D {
 		BodyEntered += HandleCollision;
 	}
 
-	private void HandleCollision(Node2D node) {
-		if (node is not HitboxComponent hitboxComponent) {
+	public void HandleCollision(Node2D node) {
+		if (node is not HitboxComponent hitboxComponent || !hitboxComponent.CanDamage(this)) {
 			return;
 		}
 
