@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bd5wqt2ikwe04"]
+[gd_scene load_steps=11 format=3 uid="uid://bd5wqt2ikwe04"]
 
 [ext_resource type="Shader" path="res://hit_flash.gdshader" id="1_0vkfi"]
 [ext_resource type="Texture2D" uid="uid://jsje281tyx28" path="res://sprites/Training Dummy Sprite Sheet.png" id="2_vrbwc"]
@@ -42,8 +42,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6ynag"]
 size = Vector2(11, 23)
 
-[node name="Dummy" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsiql"]
+size = Vector2(11, 23)
+
+[node name="Dummy" type="StaticBody2D"]
 scale = Vector2(2, 2)
+collision_layer = 2
+collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_3ipt8")
@@ -61,3 +66,7 @@ Sprite = NodePath("../AnimatedSprite2D")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_6ynag")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_qsiql")

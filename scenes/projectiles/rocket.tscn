@@ -9,9 +9,11 @@
 
 [sub_resource type="Resource" id="Resource_2vlmp"]
 script = ExtResource("2_y5mi1")
+TriggerImpactEffect = true
 
 [sub_resource type="Resource" id="Resource_be72r"]
 script = ExtResource("2_y5mi1")
+TriggerImpactEffect = true
 
 [sub_resource type="Resource" id="Resource_3plt3"]
 script = ExtResource("3_h18pi")

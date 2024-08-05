@@ -13,8 +13,8 @@ public partial class Projectile : StaticBody2D {
 	[Export] public VelocityStrategy? VelocityStrategy;
 
 	public override void _Ready() {
-		HitboxComponent.AreaEntered += HandleImpact;
-		HitboxComponent.BodyEntered += HandleImpact;
+		HitboxComponent.AreaEntered += HandleHurtboxImpact;
+		HitboxComponent.BodyEntered += HandleHurtboxImpact;
 
 		SceneTreeTimer? lifeTimeTimer = GetTree().CreateTimer(LifeTime);
 		lifeTimeTimer.Timeout += () => {
@@ -29,41 +29,33 @@ public partial class Projectile : StaticBody2D {
 		KinematicCollision2D? collision = MoveAndCollide(Transform.X * Speed * (float)delta, true);
 
 		if (collision != null) {
-			OtherImpactStrategy.Apply(this, collision);
-			GodotObject? collider = collision.GetCollider();
-			if (collider is Node2D node) {
-				// TODO: Performing impact strategy before movement means things happen away from the impact (slightly away from wall)
-				// which is fine for bouncing but looks bad for the impact effect
-				HandleImpact(node);
+			if (OtherImpactStrategy.TriggerImpactEffect) {
+				ShowImpactEffect(GlobalPosition + Transform.X * Speed * (float)delta);
 			}
+
+			OtherImpactStrategy.Apply(this, collision);
 		}
 
 		Position += Transform.X * Speed * (float)delta;
 	}
 
-	private void HandleImpact(Node2D collision) {
+	private void HandleHurtboxImpact(Node2D collision) {
+		if (collision is not HurtboxComponent) {
+			return;
+		}
+
+		if (HurtboxImpactStrategy.TriggerImpactEffect) {
+			ShowImpactEffect(GlobalPosition);
+		}
+
+		HurtboxImpactStrategy.Apply(this, null);
+	}
+
+	private void ShowImpactEffect(Vector2 position) {
 		var impactEffect = ImpactEffect.Instantiate<Node2D>();
 		impactEffect.RotationDegrees = RotationDegrees;
-		impactEffect.GlobalPosition = GlobalPosition;
+		impactEffect.GlobalPosition = position;
 
 		GetTree().CurrentScene.CallDeferred("add_child", impactEffect);
-
-		// Check layer because environment could be destroyable and have hurtbox
-		bool hit = collision switch {
-			Area2D area => area.GetCollisionLayerValue(2),
-			PhysicsBody2D body => body.GetCollisionLayerValue(2),
-			_ => false
-		};
-
-		if (hit) {
-			CombatEventHandler.HandleEvent(new ProjectileHitCombatEvent(this));
-		}
-		else {
-			CombatEventHandler.HandleEvent(new ProjectileMissCombatEvent(this));
-		}
-
-		if (collision is HurtboxComponent) {
-			HurtboxImpactStrategy.Apply(this, null);
-		}
 	}
 }

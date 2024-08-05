@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://cksx7xluw8yns"]
+
+[ext_resource type="Script" path="res://Weapon.cs" id="1_drsdc"]
+[ext_resource type="Script" path="res://Weapons/FiringModes/SingleFiringMode.cs" id="2_dsunu"]
+[ext_resource type="PackedScene" uid="uid://ch87jscyqapu2" path="res://scenes/projectiles/bouncy_bullet.tscn" id="3_v673b"]
+[ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_ib6oo"]
+[ext_resource type="AudioStream" uid="uid://cfw5o7608dhqm" path="res://sounds/single-gunshot-52-80191.mp3" id="5_73i21"]
+[ext_resource type="Texture2D" uid="uid://oebl17xvowg7" path="res://sprites/bouncer_smg.png" id="6_3ahio"]
+
+[sub_resource type="Resource" id="Resource_37leo"]
+script = ExtResource("2_dsunu")
+
+[sub_resource type="Resource" id="Resource_m2a1o"]
+script = ExtResource("4_ib6oo")
+Spread = 8.0
+
+[node name="BouncerSmg" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
+script = ExtResource("1_drsdc")
+AttacksPerSecond = 14.0
+FirePoint = NodePath("FirePoint")
+FiringMode = SubResource("Resource_37leo")
+IsAutomatic = true
+ProjectileScene = ExtResource("3_v673b")
+ShellEjectionPoint = NodePath("ShellEjectionpoint")
+ShotPattern = SubResource("Resource_m2a1o")
+Sound = ExtResource("5_73i21")
+Sprite = NodePath("Sprite2D")
+UserKickback = 80.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("6_3ahio")
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(38, -5)
+
+[node name="ShellEjectionpoint" type="Node2D" parent="."]
+position = Vector2(1, -5)

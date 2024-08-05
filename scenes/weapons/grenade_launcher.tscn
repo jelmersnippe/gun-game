@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://bi1d12knn0ubk"]
+
+[ext_resource type="Script" path="res://Weapon.cs" id="1_jyai0"]
+[ext_resource type="Script" path="res://Weapons/FiringModes/SingleFiringMode.cs" id="2_43tl1"]
+[ext_resource type="PackedScene" uid="uid://caclmqqr3mmds" path="res://scenes/projectiles/grenade.tscn" id="3_t0xeo"]
+[ext_resource type="Script" path="res://Weapons/ShotPatterns/SimpleShotPattern.cs" id="4_7qksd"]
+[ext_resource type="AudioStream" uid="uid://bmp5xhss48d4b" path="res://sounds/grenade-launcher-106342.mp3" id="5_so5g4"]
+[ext_resource type="Texture2D" uid="uid://biypm60hm48ma" path="res://sprites/grenade-launcher.png" id="6_ihnhy"]
+
+[sub_resource type="Resource" id="Resource_p54u7"]
+script = ExtResource("2_43tl1")
+
+[sub_resource type="Resource" id="Resource_o3kov"]
+script = ExtResource("4_7qksd")
+Spread = 2.0
+
+[node name="GrenadeLauncher" type="Node2D" node_paths=PackedStringArray("FirePoint", "ShellEjectionPoint", "Sprite")]
+script = ExtResource("1_jyai0")
+AttacksPerSecond = 1.0
+FirePoint = NodePath("FirePoint")
+FiringMode = SubResource("Resource_p54u7")
+ProjectileScene = ExtResource("3_t0xeo")
+ShellEjectionPoint = NodePath("ShellEjectionPoint")
+ShotPattern = SubResource("Resource_o3kov")
+Sound = ExtResource("5_so5g4")
+Sprite = NodePath("Sprite2D")
+UserKickback = 120.0
+WeaponKickback = 10.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("6_ihnhy")
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(30, -6)
+
+[node name="ShellEjectionPoint" type="Node2D" parent="."]
+position = Vector2(5, -2)

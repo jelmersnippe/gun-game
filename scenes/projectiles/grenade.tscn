@@ -1,0 +1,50 @@
+[gd_scene load_steps=14 format=3 uid="uid://caclmqqr3mmds"]
+
+[ext_resource type="Script" path="res://Projectile.cs" id="1_8h8wo"]
+[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/DestroyImpactStrategy.cs" id="2_bbwdm"]
+[ext_resource type="PackedScene" uid="uid://bnjiwbb8qhds2" path="res://scenes/projectiles/explosion.tscn" id="3_50k6v"]
+[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/BounceImpactStrategy.cs" id="4_dqvgr"]
+[ext_resource type="PackedScene" uid="uid://cnusx0iv0kktv" path="res://scenes/projectiles/shotgun_shell.tscn" id="5_1v5fw"]
+[ext_resource type="Script" path="res://Projectiles/VelocityStrategy/PelletVelocityStrategy.cs" id="6_2anqa"]
+[ext_resource type="Texture2D" uid="uid://b2hn1pxb8niq7" path="res://sprites/grenade.png" id="7_0d8fj"]
+[ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="8_y6gxc"]
+
+[sub_resource type="Resource" id="Resource_784l3"]
+script = ExtResource("2_bbwdm")
+TriggerImpactEffect = true
+
+[sub_resource type="Resource" id="Resource_afix2"]
+script = ExtResource("4_dqvgr")
+TriggerImpactEffect = false
+
+[sub_resource type="Resource" id="Resource_raxvc"]
+script = ExtResource("6_2anqa")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btyhw"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qysoa"]
+size = Vector2(8, 8)
+
+[node name="Grenade" type="StaticBody2D" node_paths=PackedStringArray("HitboxComponent")]
+collision_layer = 4
+collision_mask = 16
+script = ExtResource("1_8h8wo")
+HitboxComponent = NodePath("HitboxComponent")
+HurtboxImpactStrategy = SubResource("Resource_784l3")
+ImpactEffect = ExtResource("3_50k6v")
+OtherImpactStrategy = SubResource("Resource_afix2")
+Shell = ExtResource("5_1v5fw")
+Speed = 800.0
+VelocityStrategy = SubResource("Resource_raxvc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("7_0d8fj")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("8_y6gxc")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_btyhw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qysoa")

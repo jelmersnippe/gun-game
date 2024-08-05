@@ -1,0 +1,48 @@
+[gd_scene load_steps=12 format=3 uid="uid://ch87jscyqapu2"]
+
+[ext_resource type="Script" path="res://Projectile.cs" id="1_tckgn"]
+[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/DestroyImpactStrategy.cs" id="2_djyuj"]
+[ext_resource type="Script" path="res://Projectiles/ImpactStrategy/BounceImpactStrategy.cs" id="2_dt1a1"]
+[ext_resource type="PackedScene" uid="uid://lpt5yixny2al" path="res://scenes/projectiles/bullet_impact.tscn" id="3_th431"]
+[ext_resource type="PackedScene" uid="uid://cbd8kc4uoq1ya" path="res://scenes/projectiles/bullet_casing.tscn" id="4_m4p4q"]
+[ext_resource type="SpriteFrames" uid="uid://bdefy6w6imyx2" path="res://scenes/projectiles/bullet_spriteframes.tres" id="5_jfj3y"]
+[ext_resource type="PackedScene" uid="uid://dhv1vv2g7bd7r" path="res://components/hitbox_component.tscn" id="6_mynpt"]
+
+[sub_resource type="Resource" id="Resource_lvn30"]
+script = ExtResource("2_djyuj")
+TriggerImpactEffect = true
+
+[sub_resource type="Resource" id="Resource_7psah"]
+script = ExtResource("2_dt1a1")
+TriggerImpactEffect = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_da7f5"]
+size = Vector2(18, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ixif"]
+size = Vector2(18, 8)
+
+[node name="BouncyBullet" type="StaticBody2D" node_paths=PackedStringArray("HitboxComponent")]
+collision_layer = 4
+collision_mask = 18
+script = ExtResource("1_tckgn")
+HitboxComponent = NodePath("HitboxComponent")
+HurtboxImpactStrategy = SubResource("Resource_lvn30")
+ImpactEffect = ExtResource("3_th431")
+OtherImpactStrategy = SubResource("Resource_7psah")
+Shell = ExtResource("4_m4p4q")
+Speed = 900.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("5_jfj3y")
+autoplay = "default"
+frame = 1
+frame_progress = 1.0
+
+[node name="HitboxComponent" parent="." instance=ExtResource("6_mynpt")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_da7f5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6ixif")
