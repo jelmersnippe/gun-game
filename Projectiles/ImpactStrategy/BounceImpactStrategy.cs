@@ -7,7 +7,6 @@ public partial class BounceImpactStrategy : ImpactStrategy {
 			return;
 		}
 
-		// TODO: Figure out how to do properly with a Node2D instead so we dont need staticbody2d on everything
 		var direction = new Vector2(Mathf.Cos(projectile.GlobalRotation), Mathf.Sin(projectile.GlobalRotation));
 		Vector2 collisionNormal = collision.GetNormal();
 
