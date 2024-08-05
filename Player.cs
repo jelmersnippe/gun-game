@@ -2,6 +2,7 @@ using Godot;
 
 public partial class Player : CharacterBody2D {
 	private Pickup? _availablePickup;
+	private int _enemiesKilled;
 
 	[Export] public Vector2 CarryingOffset = new(24, -2);
 
@@ -13,7 +14,8 @@ public partial class Player : CharacterBody2D {
 	[Export] public HurtboxComponent HurtboxComponent;
 	[Export] public InputComponent InputComponent;
 	[Export] public Inventory Inventory;
-	[Export] public ObjectiveController? ObjectiveController;
+
+	[Export] public int KillsPerWeapon = 20;
 	[Export] public Area2D PickupRadius;
 
 	[Export] public float Speed = 200f;
@@ -45,15 +47,25 @@ public partial class Player : CharacterBody2D {
 		PickupRadius.AreaEntered += EnterPickupArea;
 		PickupRadius.AreaExited += ExitPickupArea;
 
-		if (ObjectiveController != null) {
-			ObjectiveController.ObjectiveCompleted += ObjectiveControllerOnObjectiveCompleted;
-		}
-
 		Weapon? startingWeapon = GunRegistry?.GetNext();
 		Inventory.Equip(startingWeapon);
 
 		HurtboxComponent.Hit += (component, direction) => HealthComponent.TakeDamage(component.ContactDamage);
 		HealthComponent.Died += Die;
+
+		CombatEventHandler.CombatEventTriggered += CombatEventHandlerOnCombatEventTriggered;
+	}
+
+	private void CombatEventHandlerOnCombatEventTriggered(CombatEvent obj) {
+		if (obj.Type != CombatEventType.EnemyKilled) {
+			return;
+		}
+
+		_enemiesKilled++;
+
+		if (_enemiesKilled % KillsPerWeapon == 0) {
+			Inventory.Equip(GunRegistry?.GetNext());
+		}
 	}
 
 	private void Die() {
@@ -64,10 +76,6 @@ public partial class Player : CharacterBody2D {
 	private void ShowGameOver(string title) {
 		GameOverMenu.Instance.Activate(title);
 		QueueFree();
-	}
-
-	private void ObjectiveControllerOnObjectiveCompleted(Objective obj) {
-		Inventory.Equip(GunRegistry?.GetNext());
 	}
 
 	private void EquipWeapon(Weapon weapon) {
